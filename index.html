@@ -6,105 +6,129 @@
 <title>Empire 2736</title>
 <meta name="description" content="Roguelite économique infini et cynique : un descendant de Napoléon rachète le monde aux mégacorporations en 2736.">
 <style>
-:root{--bg:#f3ead2;--card:#fffaf0;--ink:#1b2240;--mute:#666b84;--blue:#1e40af;--blue2:#dbe4ff;--red:#d2323c;--red2:#ffe0e2;--gold:#c8921a;--gold2:#fff0c4;--green:#16825a;--green2:#d9f5e7;--violet:#6d3fc0;--violet2:#ece3ff;color-scheme:light}
+:root{--bg:#f5f2ea;--bg2:#ebe6d8;--card:#ffffff;--card2:#faf8f2;--ink:#1c2340;--mute:#6c718a;--line:#e3dccb;--blue:#2748c8;--blue2:#e6ecff;--red:#d6384a;--red2:#fde8eb;--gold:#c9961f;--gold2:#fff4d3;--green:#14915f;--green2:#dcf6e9;--violet:#6a42c4;--violet2:#efe8ff;--sh:0 1px 2px rgba(28,35,64,.06),0 8px 22px rgba(28,35,64,.07);--shh:0 2px 4px rgba(28,35,64,.08),0 14px 30px rgba(28,35,64,.13);--r:16px;color-scheme:light}
+:root[data-theme=dark]{--bg:#0e1325;--bg2:#141b34;--card:#1a2243;--card2:#202a52;--ink:#e9eefc;--mute:#9aa5cc;--line:#2b3663;--blue:#6f8cff;--blue2:#232e63;--red:#ff6b7a;--red2:#3b2030;--gold:#f0c24a;--gold2:#3a3220;--green:#4fd69c;--green2:#1c3a31;--violet:#a98bff;--violet2:#2b2352;--sh:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.28);--shh:0 2px 4px rgba(0,0,0,.35),0 14px 30px rgba(0,0,0,.4);color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);background-image:radial-gradient(#e0d4b3 1px,transparent 1px);background-size:18px 18px;color:var(--ink);font:15px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-bottom:92px}
+body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed;color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-bottom:104px}
 button{font:inherit;cursor:pointer;color:inherit}
 button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.stripe{height:8px;background:linear-gradient(90deg,var(--blue) 33%,#fff 33% 66%,var(--red) 66%);border-bottom:2px solid var(--ink)}
-.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 16px;max-width:1180px;margin:0 auto}
+h1,h2{font-family:Georgia,"Times New Roman",serif}
+.stripe{height:5px;background:linear-gradient(90deg,#2748c8 33%,#f4f1ea 33% 66%,#d6384a 66%)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;max-width:1180px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:10px}
-.fleur{font-size:34px;color:var(--gold);text-shadow:2px 2px 0 var(--ink)}
-.brand h1{margin:0;font-size:24px;font-weight:900;letter-spacing:1px;line-height:1}
+.fleur{font-size:34px;color:var(--gold);filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.brand h1{margin:0;font-size:25px;font-weight:900;letter-spacing:1.5px;line-height:1}
 .brand small{color:var(--mute)}
-.prog{flex:1;min-width:180px}
-.progtxt{display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:3px;gap:8px;flex-wrap:wrap}
-.bar{height:12px;border:2px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden}
-.bar i{display:block;height:100%;transition:width .4s}
 .hbtns{display:flex;gap:8px;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:310px 1fr;gap:16px;max-width:1180px;margin:0 auto;padding:0 16px 16px}
-@media(max-width:860px){.layout{grid-template-columns:1fr}}
-.card{background:var(--card);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink);padding:12px}
-.card.own{background:var(--gold2);border-color:var(--gold);box-shadow:4px 4px 0 var(--gold)}
-.card.lock{background:#e7e0cc;border-style:dashed;box-shadow:none;opacity:.8}
-.card.vio{background:var(--violet2);border-color:var(--violet);box-shadow:4px 4px 0 var(--violet)}
+.hud{position:sticky;top:0;z-index:6;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);box-shadow:0 6px 20px rgba(28,35,64,.08)}
+.hud-in{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.hud-in::-webkit-scrollbar{display:none}
+.hc{flex:0 0 auto;min-width:100px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:5px 11px}
+.hc label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--mute);font-weight:700;white-space:nowrap}
+.hc b{display:block;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap;transform-origin:left center}
+.hc b .small{font-weight:600}
+.hc small{display:block;font-size:11.5px;color:var(--mute);white-space:nowrap}
+.hc.main{min-width:160px;background:linear-gradient(135deg,var(--blue2),var(--card2));border-color:var(--blue)}
+.hc.main b{font-size:25px}
+.hc.warn{border-color:var(--red);background:var(--red2)}
+.hc.click{cursor:pointer}
+.mini{height:5px;border-radius:3px;background:var(--bg2);margin:3px 0 2px;overflow:hidden}
+.mini i{display:block;height:100%;border-radius:3px;transition:width .4s}
+.fl-up b{animation:flu 1s ease-out}
+.fl-down b{animation:fld 1s ease-out}
+@keyframes flu{0%{color:var(--green);transform:scale(1.1)}100%{transform:none}}
+@keyframes fld{0%{color:var(--red);transform:scale(1.1)}100%{transform:none}}
+.layout{display:grid;grid-template-columns:290px 1fr;gap:16px;max-width:1180px;margin:0 auto;padding:16px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.side{order:2;position:static!important;max-height:none!important}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px;transition:box-shadow .15s,transform .15s,border-color .15s}
+.grid>.card:hover{box-shadow:var(--shh);transform:translateY(-2px)}
+.card.own{background:var(--gold2);border-color:var(--gold)}
+.card.can{border-color:color-mix(in srgb,var(--green) 60%,var(--line))}
+.card.lock{background:var(--bg2);border-style:dashed;box-shadow:none;opacity:.75}
+.card.vio{background:var(--violet2);border-color:color-mix(in srgb,var(--violet) 50%,var(--line))}
 .card h3{margin:0 0 2px;font-size:16px;font-weight:800}
 .card .sub{color:var(--mute);font-size:13px;margin-bottom:8px}
-.side{display:flex;flex-direction:column;gap:12px;align-self:start;position:sticky;top:8px}
-@media(max-width:860px){.side{position:static}}
+.side{display:flex;flex-direction:column;gap:12px;align-self:start;position:sticky;top:84px;max-height:calc(100vh - 190px);overflow-y:auto;padding:2px 4px 2px 2px;scrollbar-width:thin}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tile{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;min-width:0}
+.tile{border:1px solid var(--line);border-radius:12px;padding:6px 10px;background:var(--card2);min-width:0}
 .tile.wide{grid-column:1/3}
 .tile b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--mute)}
 .tile span{font-size:20px;font-weight:800;overflow-wrap:anywhere}
 .tile small{display:block;font-size:12px;color:var(--mute)}
 .pos{color:var(--green)}.neg{color:var(--red)}
-.pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;border:1.5px solid var(--ink);background:#fff}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 9px;border-radius:99px;border:1px solid var(--line);background:var(--card2)}
 .pill.red{background:var(--red2);color:var(--red);border-color:var(--red)}
-.pill.gold{background:var(--gold2);color:#7a5600;border-color:var(--gold)}
+.pill.gold{background:var(--gold2);color:var(--gold);border-color:var(--gold)}
 .pill.blue{background:var(--blue2);color:var(--blue);border-color:var(--blue)}
 .pill.green{background:var(--green2);color:var(--green);border-color:var(--green)}
 .pill.vio{background:var(--violet2);color:var(--violet);border-color:var(--violet)}
-.advisor{display:flex;gap:10px;align-items:center;background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink);padding:10px 14px;margin-bottom:12px}
-.advisor .av{font-size:28px}
+.advisor{display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,#2748c8,#5b3fd0);color:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:12px 16px;margin-bottom:12px}
+.advisor .av{font-size:30px}
 .advisor button{margin-left:auto;white-space:nowrap}
-.news{background:#fff;border:2px dashed var(--ink);border-radius:12px;padding:8px 12px;margin-bottom:12px;font-size:14px}
+.news{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;padding:8px 14px;margin-bottom:12px;font-size:14px;box-shadow:var(--sh)}
 .news h4{margin:0 0 3px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue)}
 .news p{margin:3px 0;font-style:italic}
 .tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.tab{background:#fff;border:2px solid var(--ink);border-radius:99px;padding:6px 14px;font-weight:700;font-size:14px}
-.tab.on{background:var(--ink);color:var(--bg)}
-.tab .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-left:5px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
+.tab{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:7px 15px;font-weight:700;font-size:14px;box-shadow:var(--sh);transition:.12s}
+.tab:hover{border-color:var(--blue)}
+.tab.on{background:linear-gradient(180deg,#3a5be0,#2748c8);color:#fff;border-color:transparent}
+.tab .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-left:6px;box-shadow:0 0 0 2px rgba(214,56,74,.25)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:14px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.btn{background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:6px 12px;font-weight:700;font-size:14px;box-shadow:2px 2px 0 var(--ink);transition:transform .08s,box-shadow .08s}
-.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
-.btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
-.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.btn.w{background:#fff;color:var(--ink)}
-.btn.r{background:var(--red)}
-.btn.g{background:var(--gold);color:var(--ink)}
-.btn.v{background:var(--violet)}
-.btn.sm{padding:3px 9px;font-size:13px}
-.btn.big{font-size:17px;padding:9px 18px}
-.btn.on{background:var(--green)}
+.btn{background:linear-gradient(180deg,#3a5be0,#2748c8);color:#fff;border:none;border-radius:10px;padding:7px 13px;font-weight:700;font-size:14px;box-shadow:0 2px 0 rgba(0,0,0,.18),0 4px 10px rgba(39,72,200,.22);transition:transform .08s,filter .12s}
+.btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:translateY(1px);box-shadow:none}
+.btn:disabled{opacity:.42;cursor:not-allowed;box-shadow:none}
+.btn.w{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:0 1px 2px rgba(28,35,64,.1)}
+.btn.r{background:linear-gradient(180deg,#e45565,#d6384a);color:#fff}
+.btn.g{background:linear-gradient(180deg,#e8b23a,#c9961f);color:#2a1d00}
+.btn.v{background:linear-gradient(180deg,#8460dc,#6a42c4);color:#fff}
+.btn.on{background:linear-gradient(180deg,#25b27d,#14915f);color:#fff}
+.btn.sm{padding:4px 10px;font-size:13px;border-radius:8px}
+.btn.big{font-size:16px;padding:9px 18px}
 .seg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
-.seg button.p{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:5px 10px;font-weight:600;font-size:13px}
-.seg button.p.on{background:var(--ink);color:var(--bg)}
+.seg button.p{background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-weight:600;font-size:13px;transition:.12s}
+.seg button.p:hover{border-color:var(--blue)}
+.seg button.p.on{background:var(--blue);color:#fff;border-color:var(--blue)}
 .small{font-size:12.5px;color:var(--mute)}
 .need{font-size:12px;color:var(--red);font-weight:600}
-.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:3px solid var(--ink);padding:8px 12px;display:flex;justify-content:center;gap:12px;align-items:center;z-index:5;flex-wrap:wrap}
+.bar{height:10px;border-radius:99px;background:var(--bg2);overflow:hidden}
+.bar.thin{height:6px;margin:4px 0}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .4s}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;width:min(980px,calc(100% - 24px));background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shh);padding:8px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;z-index:5;flex-wrap:wrap}
 .bottom .hint{font-size:14px}
-.ov{position:fixed;inset:0;background:rgba(27,34,64,.7);display:flex;align-items:center;justify-content:center;padding:14px;z-index:10;overflow:auto}
-.modal{background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:8px 8px 0 var(--ink);max-width:600px;width:100%;padding:20px;max-height:92vh;overflow:auto}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.ov{position:fixed;inset:0;background:rgba(12,17,38,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:14px;z-index:10;overflow:auto}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.35);max-width:600px;width:100%;padding:22px;max-height:92vh;overflow:auto;animation:pop .18s ease-out}
 .modal.wide{max-width:780px}
-.modal h2{margin:0 0 8px;font-size:22px;font-weight:900}
-.modal .opt{display:block;width:100%;text-align:left;margin-top:8px;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:10px 12px;font-weight:700}
-.modal .opt:hover{background:var(--blue2)}
+@keyframes pop{0%{transform:translateY(8px) scale(.97);opacity:0}100%{transform:none;opacity:1}}
+.modal h2{margin:0 0 8px;font-size:23px;font-weight:900}
+.modal .opt{display:block;width:100%;text-align:left;margin-top:8px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-weight:700;transition:.12s}
+.modal .opt:hover{background:var(--blue2);border-color:var(--blue)}
 .modal .opt small{display:block;color:var(--mute);font-weight:400}
 .big-icon{font-size:56px;line-height:1}
 .dots{display:flex;gap:6px;justify-content:center;margin:12px 0}
-.dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#fff}
-.dots i.on{background:var(--ink)}
-.log p{margin:3px 0;border-bottom:1px dotted #c9bd9a;padding-bottom:3px}
+.dots i{width:9px;height:9px;border-radius:50%;border:1px solid var(--line);background:var(--card2)}
+.dots i.on{background:var(--blue);border-color:var(--blue)}
+.log p{margin:3px 0;border-bottom:1px dotted var(--line);padding-bottom:3px}
 .log .t{display:inline-block;min-width:38px;font-weight:800;color:var(--blue)}
-.mis{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dotted #c9bd9a}
+.mis{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dotted var(--line)}
 .mis .ck{font-size:18px}
 .mis.done{opacity:.55;text-decoration:line-through}
-.rel{display:inline-flex;align-items:center;gap:4px;background:var(--violet2);border:1.5px solid var(--violet);border-radius:99px;padding:1px 8px;font-size:12px;margin:2px 2px 0 0;font-weight:600}
-#toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:20;font-weight:600;max-width:90vw;text-align:center}
+.rel{display:inline-flex;align-items:center;gap:4px;background:var(--card);border:1px solid color-mix(in srgb,var(--violet) 50%,var(--line));border-radius:99px;padding:1px 9px;font-size:12px;margin:2px 2px 0 0;font-weight:600}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:9px 18px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:20;font-weight:600;max-width:90vw;text-align:center;box-shadow:var(--shh)}
 #toast.on{opacity:1;transform:translateX(-50%)}
-@media(max-width:560px){.brand h1{font-size:20px}.top{padding:8px 10px}.layout{padding:0 10px 10px}.bottom .hint{width:100%;text-align:center}}
+@media(max-width:560px){.brand h1{font-size:20px}.top{padding:8px 10px}.layout{padding:10px}.hud-in{padding:6px 10px}.hc{min-width:92px}.hc.main{min-width:140px}.hc b{font-size:17px}.hc.main b{font-size:22px}.bottom .hint{display:none}.bottom{justify-content:center}.btn.big{font-size:14px;padding:8px 12px}}
 </style>
 </head>
 <body>
 <div class="stripe"></div>
 <header class="top">
   <div class="brand"><span class="fleur">⚜</span><div><h1>EMPIRE 2736</h1><small>Roguelite infini · racheter le monde</small></div></div>
-  <div class="prog"><div class="progtxt"><span id="progtxt"></span><span id="progech"></span></div><div class="bar"><i id="progbar" style="background:var(--blue)"></i></div></div>
-  <div class="hbtns"><button class="btn v sm" onclick="showHeritage()" id="hbtn">★ Héritage</button><button class="btn w sm" onclick="showMissions()">🎯 Missions</button><button class="btn w sm" onclick="showHelp()">❓ Aide</button><button class="btn w sm" onclick="showMenu()">☰</button></div>
+  <div class="hbtns"><button class="btn v sm" onclick="showHeritage('menu')" id="hbtn">★ Héritage</button><button class="btn w sm" onclick="showMissions()">🎯 Missions</button><button class="btn w sm" onclick="showHelp()">❓ Aide</button><button class="btn w sm" onclick="toggleTheme()" id="tbtn" title="Thème clair / sombre">🌙</button><button class="btn w sm" onclick="showMenu()">☰</button></div>
 </header>
+<div class="hud"><div class="hud-in" id="hudin"></div></div>
 <main class="layout">
   <aside class="side" id="side"></aside>
   <section>
@@ -116,10 +140,12 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 </main>
 <div class="bottom">
   <div class="hint" id="gohint"></div>
-  <button class="btn big" id="b1" onclick="advance(1)">Clore ▶</button>
-  <button class="btn big w" id="b5" onclick="advance(5)" title="Avance de 5 trimestres (s'arrête au premier événement)">⏩ ×5</button>
-  <button class="btn big w" id="b25" onclick="advance(25)" title="Avance de 25 trimestres (s'arrête au premier événement)">⏭ ×25</button>
-  <button class="btn big w" id="bauto" onclick="toggleAuto()" title="Avance automatiquement jusqu'au prochain événement">▶ Auto</button>
+  <div class="acts">
+    <button class="btn big" id="b1" onclick="advance(1)">Clore ▶</button>
+    <button class="btn big w" id="b5" onclick="advance(5)" title="Avance de 5 trimestres (s'arrête au premier événement)">⏩ ×5</button>
+    <button class="btn big w" id="b25" onclick="advance(25)" title="Avance de 25 trimestres (s'arrête au premier événement)">⏭ ×25</button>
+    <button class="btn big w" id="bauto" onclick="toggleAuto()" title="Avance automatiquement jusqu'au prochain événement">▶ Auto</button>
+  </div>
 </div>
 <div id="modal"></div>
 <div id="toast"></div>
@@ -905,6 +931,7 @@ function showMenu() {
   openModal(`<h2>☰ Menu</h2>
   <button class="opt" onclick="showAbdicate()">👑 Abdiquer<small>Terminer ce règne maintenant et encaisser +${num(legendGain(true))} ★ de Légende.</small></button>
   <button class="opt" onclick="showHeritage('menu')">★ Héritage<small>Dépenser votre Légende (${num(M.legend)} ★).</small></button>
+  <button class="opt" onclick="toggleTheme();showMenu()">🌗 Thème clair / sombre<small>Change l'apparence du jeu (mémorisé).</small></button>
   <button class="opt" onclick="showHelp()">❓ Aide et règles</button>
   <button class="opt" onclick="showTuto(0)">🎓 Revoir le tutoriel</button>
   <button class="opt" onclick="closeModal()">Fermer</button>`);
@@ -943,36 +970,36 @@ function advice() {
   if (m) return { t: `Mission en cours : ${m.t}.`, tab: null, b: 'Missions', fn: 'showMissions()' };
   return { t: 'Rien d\'urgent. Avancez avec ⏩ ×5 quand vous êtes prêt.', tab: null };
 }
+let hudPrev = null;
+function flc(cur, prev) { if (prev === undefined || prev === null) return ''; const d = cur - prev; if (Math.abs(d) < Math.max(1, Math.abs(prev)) * 1e-6) return ''; return d > 0 ? ' fl-up' : ' fl-down'; }
 function render() {
   if (!G) return;
   checkMissions();
-  const nw = netWorth();
+  const nw = netWorth(), en = expNet();
   const dnw = G.report && G.report.nw1 !== undefined ? G.report.nw1 - G.report.nw0 : null;
   const zone = G.heat < 40 ? ['Discret', 'green'] : G.heat < 70 ? ['Observé', 'gold'] : G.heat < 90 ? ['Surveillé', 'red'] : ['Procès imminent', 'red'];
   const hc = G.heat < 40 ? 'var(--green)' : G.heat < 70 ? 'var(--gold)' : 'var(--red)';
   const tl = echTurn() - G.turn, dem = echDemand();
-  const prevT = 10 * G.ech, span = echTurn() - prevT;
-  $('#progtxt').textContent = `Trimestre ${G.turn}`;
-  $('#progech').textContent = `⏳ Échéance n°${G.ech + 1} dans ${tl} trim.`;
-  $('#progbar').style.width = (100 * (G.turn - prevT) / span) + '%';
-  $('#hbtn').textContent = `★ Héritage (${num(M.legend)})`;
+  const ready = G.cash + stockValue() * .95, warnE = ready < dem && tl <= 2;
+  const P = hudPrev || {};
+  $('#hbtn').textContent = `★ Héritage`;
+  $('#hudin').innerHTML = `
+    <div class="hc"><label>Trimestre</label><b>${G.turn}</b><small>${G.relics.length} relique(s)</small></div>
+    <div class="hc main${flc(G.cash, P.cash)}" title="Votre trésor disponible"><label>⚜ Trésor</label><b class="${G.cash < 0 ? 'neg' : ''}">${num(G.cash)}</b><small class="${en >= 0 ? 'pos' : 'neg'}">${sgn(en)} / trim.</small></div>
+    <div class="hc${flc(nw, P.nw)}" title="Trésor + titres + activités (60 %) + territoires (70 %) − dette"><label>Patrimoine</label><b>${num(nw)}</b><small class="${dnw === null ? '' : dnw >= 0 ? 'pos' : 'neg'}">${dnw === null ? '—' : sgn(dnw) + ' ce trim.'}</small></div>
+    ${G.debt > 0 ? `<div class="hc"><label>Dette</label><b class="neg">${num(G.debt)}</b><small>${(rate() * 100).toFixed(1)} %/trim.</small></div>` : ''}
+    <div class="hc click${warnE ? ' warn' : ''}" onclick="setTab('banque')" title="Tribut à payer : prélevé sur trésor, titres, puis découvert"><label>⏳ Échéance n°${G.ech + 1}</label><b>${tl} trim.</b>
+      <div class="mini"><i style="width:${Math.min(100, 100 * Math.max(0, ready) / dem)}%;background:${ready >= dem ? 'var(--green)' : 'var(--gold)'}"></i></div>
+      <small>Tribut ${num(dem)} · ${ready >= dem ? 'réserve OK' : 'manque ' + num(dem - ready)}</small></div>
+    <div class="hc click" onclick="setTab('banque')" title="À 100 : procès. Deux procès : exil."><label>📡 Radar · casier ${G.strikes}/2</label><b>${Math.round(G.heat)}<span class="small">/100</span></b><div class="mini"><i style="width:${Math.min(100, G.heat)}%;background:${hc}"></i></div><small>${zone[0]}</small></div>
+    <div class="hc click${flc(G.glory, P.glory)}" onclick="setTab('decrets')"><label>⚜ Gloire</label><b>${num(G.glory)}</b><small>+${gloryPerTurn()} / trim.</small></div>
+    <div class="hc" title="Rumeurs, calomnies et infos d'initié par trimestre"><label>Pots-de-vin</label><b>${G.infl}/${inflMax()}</b><small>ce trimestre</small></div>
+    <div class="hc click" onclick="showHeritage('menu')" title="Légende disponible pour l'Héritage"><label>★ Légende</label><b>${num(M.legend)}</b><small>+${num(legendGain(true))} si fin</small></div>`;
+  hudPrev = { cash: G.cash, nw, glory: G.glory };
   const cm = curMission(), r = G.report;
-  const ready = G.cash + stockValue() * .95;
   $('#side').innerHTML = `
-  <div class="card"><div class="tiles">
-    <div class="tile"><b>Trésor</b><span class="${G.cash < 0 ? 'neg' : ''}">${num(G.cash)} ⚜</span></div>
-    <div class="tile"><b>Dette</b><span class="${G.debt ? 'neg' : ''}">${num(G.debt)}</span><small>${(rate() * 100).toFixed(1)} %/trim.</small></div>
-    <div class="tile wide"><b>Patrimoine</b><span>${num(nw)} ⚜</span>${dnw !== null ? `<small class="${dnw >= 0 ? 'pos' : 'neg'}">${sgn(dnw)} ce trimestre</small>` : ''}${spark(G.nwHist.map(v => Math.log10(Math.max(1, v))), 250, 30, '#1e40af')}</div>
-    <div class="tile wide" title="À 100 : procès. Deux procès : exil."><b>📡 Radar du Conseil · casier ${G.strikes}/2</b>
-      <div class="row"><span>${Math.round(G.heat)}/100</span><span class="pill ${zone[1]}">${zone[0]}</span></div>
-      <div class="bar" style="margin-top:4px"><i style="width:${Math.min(100, G.heat)}%;background:${hc}"></i></div></div>
-    <div class="tile"><b>⚜ Gloire</b><span>${num(G.glory)}</span><small>+${gloryPerTurn()}/trim.</small></div>
-    <div class="tile"><b>Pots-de-vin</b><span>${G.infl}/${inflMax()}</span></div>
-  </div></div>
-  <div class="card ${ready < dem && tl <= 3 ? '' : ''}" style="${ready < dem && tl <= 2 ? 'border-color:var(--red);box-shadow:4px 4px 0 var(--red)' : ''}"><h3>⏳ Échéance n°${G.ech + 1}</h3>
-    <div class="row small"><span>Tribut</span><b>${money(dem)}</b></div><div class="row small"><span>Dans</span><b>${tl} trimestre(s)</b></div>
-    <div class="bar" style="margin-top:4px"><i style="width:${Math.min(100, 100 * Math.max(0, ready) / dem)}%;background:${ready >= dem ? 'var(--green)' : 'var(--gold)'}"></i></div>
-    <div class="small">${ready >= dem ? 'Réserve suffisante (trésor + titres).' : `Il manque ${money(dem - ready)} de réserve.`}</div></div>
+  <div class="card"><div class="row"><h3>📈 Patrimoine</h3><span class="small">échelle log.</span></div>${spark(G.nwHist.map(v => Math.log10(Math.max(1, v))), 250, 44, '#2748c8')}
+    <div class="small">Max : <b>${money(G.peakNW)}</b> · ${G.terr} territoire(s) · ${G.ech} échéance(s)</div></div>
   ${G.relics.length ? `<div class="card vio"><h3>🎁 Reliques</h3>${G.relics.map(id => { const x = RELICS.find(y => y.id === id); return `<span class="rel" title="${x.d}">${x.icon} ${x.name}</span>`; }).join('')}</div>` : ''}
   <div class="card vio" style="cursor:pointer" onclick="showAbdicate()" title="Terminer ce règne et encaisser la Légende"><div class="row"><b>★ Légende si fin maintenant</b><b>+${num(legendGain(true))}</b></div><div class="small">Cliquez pour abdiquer.</div></div>
   ${r ? `<div class="card"><h3>Dernier trimestre (T${r.turn})</h3>
@@ -989,8 +1016,7 @@ function render() {
   const tabs = [['empire', '🏭 Corporation'], ['conq', '🏴 Territoires', terrCost(G.terr) <= G.cash], ['bourse', '📈 Bourse'], ['decrets', '📜 Décrets', decOk], ['banque', '🏦 Banque'], ['journal', '📒 Journal']];
   $('#tabs').innerHTML = tabs.map(([k, n, dot], i) => `<button class="tab ${G.tab === k ? 'on' : ''}" onclick="setTab('${k}')" title="Raccourci : ${i + 1}">${n}${dot ? '<span class="dot"></span>' : ''}</button>`).join('');
   $('#panel').innerHTML = { empire: pEmpire, conq: pConq, bourse: pBourse, decrets: pDecrets, banque: pBanque, journal: pJournal }[G.tab]();
-  const en = expNet();
-  $('#gohint').innerHTML = `Revenu net : <b class="${en >= 0 ? 'pos' : 'neg'}">${sgn(en)} ⚜</b>/trim.`;
+  $('#gohint').innerHTML = `Revenu net : <b class="${en >= 0 ? 'pos' : 'neg'}">${sgn(en)} ⚜</b>/trim. · échéance dans <b>${tl}</b>`;
   const dis = !!G.gameover || G.queue.length > 0;
   ['b1', 'b5', 'b25'].forEach(id => { $('#' + id).disabled = dis; });
   const ba = $('#bauto'); ba.textContent = autoTimer ? '⏸ Pause' : '▶ Auto'; ba.className = 'btn big ' + (autoTimer ? 'on' : 'w');
@@ -1015,9 +1041,9 @@ function pEmpire() {
     }
     const now = b.level ? bizIncome(i) : 0, nxt = bizIncomeAt(i, b.level + n);
     const nm = MS.find(m => m > b.level);
-    return `<div class="card ${b.level ? '' : ''}"><div class="row"><h3>${d.icon} ${d.name}</h3></div><div class="sub">${d.flav}</div>
+    return `<div class="card ${can ? 'can' : ''}"><div class="row"><h3>${d.icon} ${d.name}</h3>${can && !b.down ? '<span class="pill green">✓ Abordable</span>' : ''}</div><div class="sub">${d.flav}</div>
       <div class="row"><div>Niveau <b>${b.level}</b> ${b.down ? `<span class="pill red">à l'arrêt ${b.down}t</span>` : ''} ${isDeal ? `<span class="pill gold">−${Math.round(G.deal.disc * 100)} % ce trim.</span>` : ''}</div><div class="small">${b.level ? 'Rapporte ≈ ' + money(now) + '/trim.' : 'Non construit'}</div></div>
-      <div class="small">Prochain palier ×2 : niveau <b>${nm}</b></div>
+      <div class="small">Palier de revenus ×2 au niveau <b>${nm}</b></div>${nm ? `<div class="bar thin" title="Progression vers le prochain palier"><i style="width:${Math.round(100 * (b.level - ([0, ...MS].filter(m => m <= b.level).pop())) / (nm - ([0, ...MS].filter(m => m <= b.level).pop())))}%;background:var(--gold)"></i></div>` : ''}
       <div class="row" style="margin-top:8px"><div class="small">${b.level ? 'Amélioration' : 'Construction'} ×${n} : <b>${money(c)}</b><br>Gain : <b class="pos">+${money(nxt - now)}</b>/trim.${missing(c)}</div>
       <button class="btn" ${can ? '' : 'disabled'} onclick="buyBiz(${i})">${b.level ? 'Améliorer' : 'Construire'} ×${n}</button></div></div>`;
   }).join('');
@@ -1032,7 +1058,7 @@ function pConq() {
   let list = '';
   for (let j = 0; j < 6; j++) {
     const n = G.terr + j, c = terrCost(n), era = Math.min(eraOf(n), TERR_FLAV.length - 1), first = j === 0;
-    list += `<div class="card ${first ? '' : 'lock'}"><h3>🏴 ${terrName(n)}</h3><div class="sub">${TERR_FLAV[era]}</div>
+    list += `<div class="card ${first ? (c <= G.cash ? 'can' : '') : 'lock'}"><h3>🏴 ${terrName(n)}</h3><div class="sub">${TERR_FLAV[era]}</div>
     <div class="row"><div class="small">+4 % de revenus, +½ Gloire/trim.<br>Prix : <b>${money(c)}</b>${first ? missing(c) : ''}</div>${first ? `<button class="btn g" ${c > G.cash ? 'disabled' : ''} onclick="buyTerr()">Racheter</button>` : '<span class="pill">à venir</span>'}</div></div>`;
   }
   return `<div class="card" style="margin-bottom:12px"><div class="row"><h3>🏴 Territoires — ${ERA_NAMES[Math.min(k, ERA_NAMES.length - 1)]}</h3><b>${G.terr} rachetés</b></div>
@@ -1060,7 +1086,7 @@ function pBourse() {
       <div class="small">Profondeur : ${money(dep)} · impact de l'ordre : <b class="${imp > .05 ? 'neg' : ''}">±${(imp * 100).toFixed(1)} %</b></div>
       <div class="row" style="margin-top:6px"><button class="btn" onclick="buy('${s.id}')">Acheter ${G.qty === 'max' ? 'max' : '× ' + num(G.qty)}</button><button class="btn w" ${s.held ? '' : 'disabled'} onclick="sell('${s.id}')">Vendre ${G.qty === 'max' ? 'tout' : '× ' + num(G.qty)}</button>
       <button class="btn w sm" onclick="toggleMan('${s.id}')">${G.man[s.id] ? '▲' : '▼'} Manœuvres</button></div>
-      ${G.man[s.id] ? `<div style="margin-top:8px;padding-top:8px;border-top:2px dashed var(--ink)"><div class="small">Coûtent un pot-de-vin et augmentent le Radar. Les rumeurs influencent le cours du trimestre prochain.</div><div class="seg"><button class="btn r sm" onclick="rumor('${s.id}',1)">Rumeur flatteuse ↑ · ${num(rumorCost())}</button><button class="btn r sm" onclick="rumor('${s.id}',-1)">Calomnie ↓ · ${num(rumorCost())}</button><button class="btn w sm" onclick="tip('${s.id}')">Info d'initié · ${num(tipCost())}</button></div></div>` : ''}</div>`;
+      ${G.man[s.id] ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)"><div class="small">Coûtent un pot-de-vin et augmentent le Radar. Les rumeurs influencent le cours du trimestre prochain.</div><div class="seg"><button class="btn r sm" onclick="rumor('${s.id}',1)">Rumeur flatteuse ↑ · ${num(rumorCost())}</button><button class="btn r sm" onclick="rumor('${s.id}',-1)">Calomnie ↓ · ${num(rumorCost())}</button><button class="btn w sm" onclick="tip('${s.id}')">Info d'initié · ${num(tipCost())}</button></div></div>` : ''}</div>`;
   }).join('') + '</div>';
 }
 function pDecrets() {
@@ -1098,6 +1124,10 @@ document.addEventListener('keydown', e => {
   if (e.key === 'a' || e.key === 'A') toggleAuto();
   const k = parseInt(e.key); if (k >= 1 && k <= 6) setTab(['empire', 'conq', 'bourse', 'decrets', 'banque', 'journal'][k - 1]);
 });
+const THEME_KEY = 'empire2736-theme';
+function applyTheme(t) { document.documentElement.setAttribute('data-theme', t); const b = $('#tbtn'); if (b) b.textContent = t === 'dark' ? '☀' : '🌙'; }
+function toggleTheme() { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; lsSet(THEME_KEY, t); applyTheme(t); }
+applyTheme(lsGet(THEME_KEY) === 'dark' ? 'dark' : 'light');
 loadMeta();
 newGame();
 startScreen();
