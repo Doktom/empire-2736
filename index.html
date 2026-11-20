@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Empire 2736</title>
-<meta name="description" content="Jeu de gestion économique cynique : un descendant de Napoléon veut racheter la France aux mégacorporations en 2736.">
+<meta name="description" content="Roguelite économique infini et cynique : un descendant de Napoléon rachète le monde aux mégacorporations en 2736.">
 <style>
-:root{--bg:#f3ead2;--card:#fffaf0;--ink:#1b2240;--mute:#666b84;--blue:#1e40af;--blue2:#dbe4ff;--red:#d2323c;--red2:#ffe0e2;--gold:#c8921a;--gold2:#fff0c4;--green:#16825a;--green2:#d9f5e7;--line:#1b2240;color-scheme:light}
+:root{--bg:#f3ead2;--card:#fffaf0;--ink:#1b2240;--mute:#666b84;--blue:#1e40af;--blue2:#dbe4ff;--red:#d2323c;--red2:#ffe0e2;--gold:#c8921a;--gold2:#fff0c4;--green:#16825a;--green2:#d9f5e7;--violet:#6d3fc0;--violet2:#ece3ff;color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);background-image:radial-gradient(#e0d4b3 1px,transparent 1px);background-size:18px 18px;color:var(--ink);font:15px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-bottom:84px}
+body{margin:0;background:var(--bg);background-image:radial-gradient(#e0d4b3 1px,transparent 1px);background-size:18px 18px;color:var(--ink);font:15px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-bottom:92px}
 button{font:inherit;cursor:pointer;color:inherit}
 button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .stripe{height:8px;background:linear-gradient(90deg,var(--blue) 33%,#fff 33% 66%,var(--red) 66%);border-bottom:2px solid var(--ink)}
@@ -19,23 +19,25 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .brand h1{margin:0;font-size:24px;font-weight:900;letter-spacing:1px;line-height:1}
 .brand small{color:var(--mute)}
 .prog{flex:1;min-width:180px}
-.progtxt{display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:3px}
+.progtxt{display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:3px;gap:8px;flex-wrap:wrap}
 .bar{height:12px;border:2px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden}
 .bar i{display:block;height:100%;transition:width .4s}
-.hbtns{display:flex;gap:8px}
-.layout{display:grid;grid-template-columns:300px 1fr;gap:16px;max-width:1180px;margin:0 auto;padding:0 16px 16px}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.layout{display:grid;grid-template-columns:310px 1fr;gap:16px;max-width:1180px;margin:0 auto;padding:0 16px 16px}
 @media(max-width:860px){.layout{grid-template-columns:1fr}}
 .card{background:var(--card);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink);padding:12px}
 .card.own{background:var(--gold2);border-color:var(--gold);box-shadow:4px 4px 0 var(--gold)}
+.card.lock{background:#e7e0cc;border-style:dashed;box-shadow:none;opacity:.8}
+.card.vio{background:var(--violet2);border-color:var(--violet);box-shadow:4px 4px 0 var(--violet)}
 .card h3{margin:0 0 2px;font-size:16px;font-weight:800}
 .card .sub{color:var(--mute);font-size:13px;margin-bottom:8px}
 .side{display:flex;flex-direction:column;gap:12px;align-self:start;position:sticky;top:8px}
 @media(max-width:860px){.side{position:static}}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tile{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff}
+.tile{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;min-width:0}
 .tile.wide{grid-column:1/3}
 .tile b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--mute)}
-.tile span{font-size:21px;font-weight:800}
+.tile span{font-size:20px;font-weight:800;overflow-wrap:anywhere}
 .tile small{display:block;font-size:12px;color:var(--mute)}
 .pos{color:var(--green)}.neg{color:var(--red)}
 .pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;border:1.5px solid var(--ink);background:#fff}
@@ -43,6 +45,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .pill.gold{background:var(--gold2);color:#7a5600;border-color:var(--gold)}
 .pill.blue{background:var(--blue2);color:var(--blue);border-color:var(--blue)}
 .pill.green{background:var(--green2);color:var(--green);border-color:var(--green)}
+.pill.vio{background:var(--violet2);color:var(--violet);border-color:var(--violet)}
 .advisor{display:flex;gap:10px;align-items:center;background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink);padding:10px 14px;margin-bottom:12px}
 .advisor .av{font-size:28px}
 .advisor button{margin-left:auto;white-space:nowrap}
@@ -53,7 +56,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .tab{background:#fff;border:2px solid var(--ink);border-radius:99px;padding:6px 14px;font-weight:700;font-size:14px}
 .tab.on{background:var(--ink);color:var(--bg)}
 .tab .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-left:5px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .btn{background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:6px 12px;font-weight:700;font-size:14px;box-shadow:2px 2px 0 var(--ink);transition:transform .08s,box-shadow .08s}
 .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
@@ -62,17 +65,20 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .btn.w{background:#fff;color:var(--ink)}
 .btn.r{background:var(--red)}
 .btn.g{background:var(--gold);color:var(--ink)}
+.btn.v{background:var(--violet)}
 .btn.sm{padding:3px 9px;font-size:13px}
-.btn.big{font-size:18px;padding:10px 22px}
+.btn.big{font-size:17px;padding:9px 18px}
+.btn.on{background:var(--green)}
 .seg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .seg button.p{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:5px 10px;font-weight:600;font-size:13px}
 .seg button.p.on{background:var(--ink);color:var(--bg)}
 .small{font-size:12.5px;color:var(--mute)}
 .need{font-size:12px;color:var(--red);font-weight:600}
-.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:3px solid var(--ink);padding:10px 16px;display:flex;justify-content:center;gap:16px;align-items:center;z-index:5;flex-wrap:wrap}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:3px solid var(--ink);padding:8px 12px;display:flex;justify-content:center;gap:12px;align-items:center;z-index:5;flex-wrap:wrap}
 .bottom .hint{font-size:14px}
 .ov{position:fixed;inset:0;background:rgba(27,34,64,.7);display:flex;align-items:center;justify-content:center;padding:14px;z-index:10;overflow:auto}
-.modal{background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:8px 8px 0 var(--ink);max-width:560px;width:100%;padding:20px;max-height:92vh;overflow:auto}
+.modal{background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:8px 8px 0 var(--ink);max-width:600px;width:100%;padding:20px;max-height:92vh;overflow:auto}
+.modal.wide{max-width:780px}
 .modal h2{margin:0 0 8px;font-size:22px;font-weight:900}
 .modal .opt{display:block;width:100%;text-align:left;margin-top:8px;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:10px 12px;font-weight:700}
 .modal .opt:hover{background:var(--blue2)}
@@ -81,28 +87,23 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .dots{display:flex;gap:6px;justify-content:center;margin:12px 0}
 .dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#fff}
 .dots i.on{background:var(--ink)}
-.diff{display:grid;gap:8px;margin:10px 0}
-.diff button{text-align:left;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:8px 12px}
-.diff button.on{background:var(--gold2);border-color:var(--gold);box-shadow:3px 3px 0 var(--gold)}
-.diff b{display:block}
 .log p{margin:3px 0;border-bottom:1px dotted #c9bd9a;padding-bottom:3px}
-.log .t{display:inline-block;min-width:34px;font-weight:800;color:var(--blue)}
+.log .t{display:inline-block;min-width:38px;font-weight:800;color:var(--blue)}
 .mis{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dotted #c9bd9a}
 .mis .ck{font-size:18px}
 .mis.done{opacity:.55;text-decoration:line-through}
-#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:20;font-weight:600;max-width:90vw;text-align:center}
+.rel{display:inline-flex;align-items:center;gap:4px;background:var(--violet2);border:1.5px solid var(--violet);border-radius:99px;padding:1px 8px;font-size:12px;margin:2px 2px 0 0;font-weight:600}
+#toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:20;font-weight:600;max-width:90vw;text-align:center}
 #toast.on{opacity:1;transform:translateX(-50%)}
-.flash{animation:fl .6s}
-@keyframes fl{0%{background:var(--gold2)}100%{background:transparent}}
-@media(max-width:560px){.brand h1{font-size:20px}.top{padding:8px 10px}.layout{padding:0 10px 10px}}
+@media(max-width:560px){.brand h1{font-size:20px}.top{padding:8px 10px}.layout{padding:0 10px 10px}.bottom .hint{width:100%;text-align:center}}
 </style>
 </head>
 <body>
 <div class="stripe"></div>
 <header class="top">
-  <div class="brand"><span class="fleur">⚜</span><div><h1>EMPIRE 2736</h1><small>Racheter la France, un trimestre à la fois</small></div></div>
-  <div class="prog"><div class="progtxt"><span id="progtxt"></span><span id="progprov"></span></div><div class="bar"><i id="progbar" style="background:var(--blue)"></i></div></div>
-  <div class="hbtns"><button class="btn w sm" onclick="showMissions()">🎯 Missions</button><button class="btn w sm" onclick="showHelp()">❓ Aide</button><button class="btn w sm" onclick="showMenu()">☰</button></div>
+  <div class="brand"><span class="fleur">⚜</span><div><h1>EMPIRE 2736</h1><small>Roguelite infini · racheter le monde</small></div></div>
+  <div class="prog"><div class="progtxt"><span id="progtxt"></span><span id="progech"></span></div><div class="bar"><i id="progbar" style="background:var(--blue)"></i></div></div>
+  <div class="hbtns"><button class="btn v sm" onclick="showHeritage()" id="hbtn">★ Héritage</button><button class="btn w sm" onclick="showMissions()">🎯 Missions</button><button class="btn w sm" onclick="showHelp()">❓ Aide</button><button class="btn w sm" onclick="showMenu()">☰</button></div>
 </header>
 <main class="layout">
   <aside class="side" id="side"></aside>
@@ -113,88 +114,160 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
     <div id="panel"></div>
   </section>
 </main>
-<div class="bottom"><div class="hint" id="gohint"></div><button class="btn big" id="endbtn" onclick="endTurn()">Clore le trimestre ▶</button></div>
+<div class="bottom">
+  <div class="hint" id="gohint"></div>
+  <button class="btn big" id="b1" onclick="advance(1)">Clore ▶</button>
+  <button class="btn big w" id="b5" onclick="advance(5)" title="Avance de 5 trimestres (s'arrête au premier événement)">⏩ ×5</button>
+  <button class="btn big w" id="b25" onclick="advance(25)" title="Avance de 25 trimestres (s'arrête au premier événement)">⏭ ×25</button>
+  <button class="btn big w" id="bauto" onclick="toggleAuto()" title="Avance automatiquement jusqu'au prochain événement">▶ Auto</button>
+</div>
 <div id="modal"></div>
 <div id="toast"></div>
 
 <script>
-const MAX = 40;
+/* =====================================================================
+   EMPIRE 2736 — roguelite économique infini
+   Run = un règne. Il se termine par une chute (échéance impayée, faillite,
+   exil) ou une abdication volontaire. On gagne de la Légende pour
+   acheter l'Héritage permanent et recommencer plus fort.
+   ===================================================================== */
 const $ = s => document.querySelector(s);
 const rnd = (a, b) => a + Math.random() * (b - a);
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
-const num = n => Math.round(n).toLocaleString('fr-FR');
+const SUF = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
+function num(n) {
+  if (!isFinite(n)) return '∞';
+  const a = Math.abs(n);
+  if (a < 1e4) return Math.round(n).toLocaleString('fr-FR');
+  if (a >= 1e36) return n.toExponential(2).replace('e+', 'e');
+  const i = Math.floor(Math.log10(a) / 3), v = n / Math.pow(1000, i);
+  return v.toFixed(Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2) + ' ' + SUF[i];
+}
 const money = n => num(n) + ' ⚜';
 const pct = x => (x >= 0 ? '+' : '') + (x * 100).toFixed(1) + '%';
 const sgn = n => (n >= 0 ? '+' : '−') + num(Math.abs(n));
-const SAVE_KEY = 'empire2736-save', BEST_KEY = 'empire2736-best', TUTO_KEY = 'empire2736-tuto';
+const SAVE_KEY = 'empire2736-run-v2', META_KEY = 'empire2736-meta-v2', TUTO_KEY = 'empire2736-tuto-v2';
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { } };
 const lsDel = k => { try { localStorage.removeItem(k); } catch (e) { } };
 
-/* ---------- Données ---------- */
-const DIFF = {
-  easy: { n: '🌱 Page blanche', cash: 5000, heat: .7, ev: .55, d: 'Plus de trésor au départ, moins de suspicion, moins d\'imprévus. Pour apprendre.' },
-  normal: { n: '⚔ Consul', cash: 3000, heat: 1, ev: .7, d: 'L\'expérience prévue. Équilibrée, cynique, juste.' },
-  hard: { n: '💀 Waterloo', cash: 2000, heat: 1.3, ev: .85, d: 'Peu d\'argent, le Conseil vous surveille de près, les catastrophes s\'enchaînent.' },
-};
+/* ---------- Méta-progression ---------- */
+let M = { legend: 0, total: 0, up: {}, best: 0, runs: 0, bestEch: 0, bestTurn: 0 };
+function loadMeta() { try { const m = JSON.parse(lsGet(META_KEY)); if (m && m.up) M = Object.assign(M, m); } catch (e) { } }
+function saveMeta() { lsSet(META_KEY, JSON.stringify(M)); }
+const ul = id => M.up[id] || 0;
+const UPG = [
+  { id: 'cash', icon: '💰', name: 'Fonds de commerce', max: 14, cost: l => Math.ceil(2 * Math.pow(1.8, l)), d: l => `Trésor de départ : ${money(1000 * Math.pow(2, l))}` },
+  { id: 'income', icon: '📈', name: 'Savoir-faire dynastique', max: 40, cost: l => Math.ceil(3 * Math.pow(1.5, l)), d: l => `Tous les revenus ×${Math.pow(1.2, l).toFixed(2)}` },
+  { id: 'levels', icon: '⛏', name: 'Armée de réserve', max: 12, cost: l => Math.ceil(4 * Math.pow(1.7, l)), d: l => `Démarrage avec ${3 * l} niveaux de Mines de Lithium` },
+  { id: 'infl', icon: '🕴', name: 'Réseau d\'influence', max: 4, cost: l => Math.ceil(8 * Math.pow(2.5, l)), d: l => `+${l} pot(s)-de-vin par trimestre` },
+  { id: 'diplo', icon: '🕊', name: 'Diplomatie', max: 8, cost: l => Math.ceil(5 * Math.pow(1.6, l)), d: l => `Radar : gains −${7 * l} %` },
+  { id: 'depth', icon: '🌊', name: 'Marchés profonds', max: 10, cost: l => Math.ceil(4 * Math.pow(1.7, l)), d: l => `Profondeur de la Bourse ×${Math.pow(1.6, l).toFixed(1)}` },
+  { id: 'div', icon: '💵', name: 'Dividendes dynastiques', max: 10, cost: l => Math.ceil(4 * Math.pow(1.6, l)), d: l => `Dividendes +${30 * l} %` },
+  { id: 'bank', icon: '🏦', name: 'Intérêts de famille', max: 6, cost: l => Math.ceil(5 * Math.pow(1.7, l)), d: l => `Intérêts −${8 * l} %, plafond d'emprunt +${12 * l} %` },
+  { id: 'glory', icon: '⚜', name: 'Gloire héréditaire', max: 10, cost: l => Math.ceil(6 * Math.pow(1.7, l)), d: l => `+${l} Gloire par trimestre` },
+  { id: 'memoire', icon: '🧠', name: 'Mémoire des Anciens', max: 8, cost: l => Math.ceil(10 * Math.pow(1.9, l)), d: l => `Tribut des échéances −${7 * l} %` },
+  { id: 'relics', icon: '🎁', name: 'Choix élargi', max: 3, cost: l => Math.ceil(15 * Math.pow(3, l)), d: l => `${3 + l} reliques proposées à chaque choix` },
+  { id: 'auto', icon: '🤖', name: 'Régence automatique', max: 2, cost: l => [25, 120][l], d: l => ['Aucune automatisation', 'Intendant : achète les activités à votre place (option)', 'Chambellan : + décrets, réformes et territoires (option)'][l] },
+  { id: 'horizons', icon: '🔭', name: 'Nouveaux horizons', max: 12, cost: l => l < 4 ? [15, 60, 250, 1000][l] : Math.ceil(1000 * Math.pow(2.4, l - 3)), d: l => l === 0 ? 'Activités de rang 7 et plus verrouillées' : `Débloque jusqu'à : ${BIZ[5 + l].icon} ${BIZ[5 + l].name} (rang ${6 + l})` },
+  { id: 'legend', icon: '★', name: 'Aura de légende', max: 10, cost: l => Math.ceil(10 * Math.pow(2, l)), d: l => `Légende gagnée +${10 * l} %` },
+];
+function buyUpg(id) {
+  const u = UPG.find(x => x.id === id), l = ul(id);
+  if (l >= u.max) return;
+  const c = u.cost(l);
+  if (M.legend < c) return toast('Pas assez de Légende');
+  M.legend -= c; M.up[id] = l + 1; saveMeta();
+  toast(`${u.icon} ${u.name} → niveau ${l + 1}`);
+  showHeritage(heritageBack);
+  if (G) render();
+}
+
+/* ---------- Données de jeu ---------- */
+const GROW = 1.14;
+const MS = [10, 25, 50, 100, 200, 400, 800, 1600];
+const msMult = L => Math.pow(2, MS.filter(m => L >= m).length);
 const BIZ = [
-  { id: 'lithium', icon: '⛏', name: 'Mines de Lithium de Marengo', cost: 1500, inc: 230, flav: 'Rentable, bruyante, sujette à la surchauffe.' },
-  { id: 'cafe', icon: '☕', name: 'Cafés Synthétiques « Le Grognard »', cost: 2500, inc: 300, flav: 'Le café n\'a jamais vu un grain. Les clients non plus.' },
-  { id: 'drones', icon: '🤖', name: 'Manufacture de Drones de la Vieille Garde', cost: 3000, inc: 400, flav: 'Ils meurent en chantant. Surchauffe fréquente.' },
-  { id: 'legit', icon: '📜', name: 'Ministère de la Légitimité', cost: 4000, inc: 150, flav: 'Produit des généalogies et des regrets. Radar −4 par niveau.' },
-  { id: 'orbitales', icon: '🛰', name: 'Régie Publicitaire Orbitale', cost: 5000, inc: 650, flav: 'Des panneaux dans le ciel. Recettes capricieuses.' },
-  { id: 'nanobrume', icon: '🌫', name: 'Usine de Nano-Brume Sociale', cost: 8000, inc: 1100, flav: 'Très lucratif. Les riverains rient sans raison. Radar +1 par niveau.' },
+  { id: 'lithium', icon: '⛏', name: 'Mines de Lithium de Marengo', c0: 100, r: .30, explo: true, flav: 'Rentable, bruyante, sujette à la surchauffe.' },
+  { id: 'cafe', icon: '☕', name: 'Cafés Synthétiques « Le Grognard »', c0: 1200, r: .22, flav: 'Le café n\'a jamais vu un grain. Les clients non plus.' },
+  { id: 'drones', icon: '🤖', name: 'Manufacture de Drones de la Vieille Garde', c0: 15000, r: .20, explo: true, flav: 'Ils meurent en chantant. Surchauffe fréquente.' },
+  { id: 'orbitales', icon: '🛰', name: 'Régie Publicitaire Orbitale', c0: 2e5, r: .18, vol: true, flav: 'Des panneaux dans le ciel. Recettes capricieuses.' },
+  { id: 'nanobrume', icon: '🌫', name: 'Usine de Nano-Brume Sociale', c0: 3e6, r: .16, explo: true, heat: true, flav: 'Très lucratif. Les riverains rient sans raison. Radar +.' },
+  { id: 'fusion', icon: '⚛', name: 'Réacteurs à Fusion Froide « Austerlitz »', c0: 5e7, r: .15, explo: true, flav: 'Froid, en théorie. Le mot « fusion » est exact.' },
+  { id: 'clones', icon: '🧬', name: 'Fabrique de Clones de Cour', c0: 8e8, r: .14, unlock: 1, flav: 'Des courtisans à la demande. Ils applaudissent en rythme.' },
+  { id: 'quantique', icon: '🏦', name: 'Banque d\'Investissement Quantique', c0: 1.5e10, r: .13, unlock: 2, vol: true, flav: 'Votre argent est à la fois placé et perdu.' },
+  { id: 'cathedrales', icon: '⛪', name: 'Cathédrales Orbitales du Sacre', c0: 3e11, r: .12, unlock: 3, flav: 'On y baptise des satellites. Don libre (obligatoire).' },
+  { id: 'trounoir', icon: '🕳', name: 'Trou Noir Fiscal', c0: 6e12, r: .11, unlock: 4, heat: true, flav: 'Tout l\'argent y entre. Une partie en ressort, légalement.' },
+  { id: 'colonies', icon: '☄', name: 'Colonies Minières de la Ceinture', c0: 1.5e14, r: .10, unlock: 5, flav: 'Des astéroïdes avec un contrat de travail. Les astéroïdes ne se plaignent pas.' },
+  { id: 'naines', icon: '🌟', name: 'Raffineries de Naines Brunes', c0: 3.75e15, r: .095, unlock: 6, explo: true, flav: 'On y raffine des étoiles ratées. Marge confortable.' },
+  { id: 'realites', icon: '🪞', name: 'Usine à Réalités Alternatives', c0: 9.4e16, r: .09, unlock: 7, vol: true, flav: 'Chaque produit existe aussi dans un monde où il marche.' },
+  { id: 'multivers', icon: '🌀', name: 'Bourse des Univers Parallèles', c0: 2.3e18, r: .085, unlock: 8, flav: 'Vous achetez à vous-même dans un autre univers, avec profit.' },
+  { id: 'avocats', icon: '⚖', name: 'Armée d\'Avocats Quantiques', c0: 5.9e19, r: .08, unlock: 9, heat: true, flav: 'Ils sont à la fois pour et contre vous, selon la facture.' },
+  { id: 'lois', icon: '🧪', name: 'Fabrique de Lois Physiques', c0: 1.5e21, r: .075, unlock: 10, flav: 'La gravité devient « optionnelle » (supplément).' },
+  { id: 'temps', icon: '⏳', name: 'Départements du Temps', c0: 3.7e22, r: .07, unlock: 11, flav: 'Les congés payés y sont rétroactifs. Les impôts aussi.' },
+  { id: 'eternelle', icon: '♾', name: 'Trésorerie Éternelle', c0: 9.2e23, r: .065, unlock: 12, flav: 'Vous êtes mort depuis des siècles. Les comptes, eux, prospèrent.' },
+  { id: 'legit', icon: '📜', name: 'Ministère de la Légitimité', c0: 400, r: 0, util: true, flav: 'Produit des généalogies et des regrets. Pas de revenu, mais le Radar baisse.' },
 ];
-const EXPLO = ['lithium', 'drones', 'nanobrume'];
-const PROV = [
-  { id: 'corse', name: 'Corse', cost: 3000, inc: 120, flav: 'Le berceau de la dynastie. Reconverti en parc à thème « Napoléon™ ».' },
-  { id: 'normandie', name: 'Normandie', cost: 5000, inc: 250, flav: 'Plages du Débarquement, sponsorisées par une marque de boisson.' },
-  { id: 'provence', name: 'Provence', cost: 6500, inc: 300, flav: 'Les cigales sont sous licence. Elles chantent en 4 langues.' },
-  { id: 'bretagne', name: 'Bretagne', cost: 8000, inc: 380, flav: 'Résiste encore, mais accepte désormais les cartes de crédit.' },
-  { id: 'idf', name: 'Île-de-France', cost: 10000, inc: 500, flav: 'Siège de 11 corporations. La Tour Eiffel est un support publicitaire.' },
-  { id: 'alsace', name: 'Alsace-Lorraine', cost: 12000, inc: 600, flav: 'Réclamée par tout le monde, une fois de plus. Zone logistique.' },
-  { id: 'aquitaine', name: 'Aquitaine', cost: 14000, inc: 700, flav: 'Le vin y est devenu un produit financier. Il est excellent, hélas.' },
-  { id: 'alpes', name: 'Rhône-Alpes', cost: 17000, inc: 850, flav: 'Stations de ski sous dôme climatisé. La neige est un abonnement.' },
-];
+const LEGIT = BIZ.length - 1;
+const BIZ_PROD = BIZ.map((b, i) => i).filter(i => !BIZ[i].util);
 const STK = [
-  { id: 'VOLT', name: 'Voltaire Énergie Inc.', sec: 'Énergie', p: 20, vol: .06, div: .012, risk: 'moyen', desc: 'Vend des électrons au détail, des éclairs en gros.' },
-  { id: 'GRND', name: 'Grognard Dynamics', sec: 'Défense', p: 35, vol: .05, div: .010, risk: 'moyen', desc: 'Fabrique des robots qui obéissent. Parfois.' },
-  { id: 'ORBI', name: 'Orbital Logistics', sec: 'Transport', p: 15, vol: .09, div: .005, risk: 'élevé', desc: 'Livraison en 1 jour, ou en 40 ans.' },
-  { id: 'CAFE', name: 'Café-Corp Universel', sec: 'Conso', p: 40, vol: .035, div: .015, risk: 'faible', desc: 'Valeur refuge. Contient 12 % de café.' },
-  { id: 'NEBU', name: 'Nébuleuse Futures', sec: 'Spéculatif', p: 8, vol: .16, div: 0, risk: 'très élevé', desc: 'Aucun produit. Valorisation astronomique. Au sens propre.' },
-  { id: 'PARD', name: 'Pardon™ Relations Publiques', sec: 'Services', p: 25, vol: .05, div: .010, risk: 'moyen', desc: 'Désolé. Pas désolé. Facturé à l\'heure.' },
+  { id: 'VOLT', name: 'Voltaire Énergie Inc.', sec: 'Énergie', p: 20, vol: .06, div: .012, liq: 1, risk: 'moyen', desc: 'Vend des électrons au détail, des éclairs en gros.' },
+  { id: 'GRND', name: 'Grognard Dynamics', sec: 'Défense', p: 35, vol: .05, div: .010, liq: 1, risk: 'moyen', desc: 'Fabrique des robots qui obéissent. Parfois.' },
+  { id: 'ORBI', name: 'Orbital Logistics', sec: 'Transport', p: 15, vol: .09, div: .005, liq: .7, risk: 'élevé', desc: 'Livraison en 1 jour, ou en 40 ans.' },
+  { id: 'CAFE', name: 'Café-Corp Universel', sec: 'Conso', p: 40, vol: .035, div: .015, liq: 1.6, risk: 'faible', desc: 'Valeur refuge. Contient 12 % de café.' },
+  { id: 'NEBU', name: 'Nébuleuse Futures', sec: 'Spéculatif', p: 8, vol: .16, div: 0, liq: .35, risk: 'très élevé', desc: 'Aucun produit. Valorisation astronomique. Au sens propre.' },
+  { id: 'PARD', name: 'Pardon™ Relations Publiques', sec: 'Services', p: 25, vol: .05, div: .010, liq: .9, risk: 'moyen', desc: 'Désolé. Pas désolé. Facturé à l\'heure.' },
 ];
 const WAGE = [
-  { n: 'Zéro-heure', m: 1.18, d: '+18 % de recettes · grèves fréquentes · Radar +1/trim.' },
+  { n: 'Zéro-heure', m: 1.18, d: '+18 % de revenus · grèves fréquentes · Radar +1/trim.' },
   { n: 'Standard', m: 1, d: 'Rien à signaler. Ce qui est déjà louche.' },
-  { n: 'Bien-être', m: .9, d: '−10 % de recettes · aucune grève · Radar −1/trim. (Massage + chaise.)' },
+  { n: 'Bien-être', m: .9, d: '−10 % de revenus · aucune grève · Radar −1/trim. (Massage + chaise.)' },
 ];
 const WSTRIKE = [.15, .04, 0];
 const SAFE = [
-  { n: '« Ta chance »', cost: 0, p: .10, d: 'Gratuit. ~10 % de surchauffe par trim. et par site sensible.' },
-  { n: 'Casque en carton', cost: 150, p: .04, d: '150 ⚜/trim. ~4 % de surchauffe.' },
-  { n: 'IA qui fait peur', cost: 500, p: .01, d: '500 ⚜/trim. ~1 % de surchauffe.' },
+  { n: '« Ta chance »', pct: 0, p: .10, d: 'Gratuit. ~10 % de surchauffe par trim. et par site sensible.' },
+  { n: 'Casque en carton', pct: .02, p: .04, d: '2 % de vos revenus. ~4 % de surchauffe.' },
+  { n: 'IA qui fait peur', pct: .06, p: .01, d: '6 % de vos revenus. ~1 % de surchauffe.' },
 ];
 const DEC = [
   { id: 'code', icon: '📜', name: 'Code Civil 2.0', cost: 6, d: 'Le Radar baisse de 2 de plus chaque trimestre.' },
   { id: 'armee', icon: '🤖', name: 'Grande Armée de Drones', cost: 8, d: '+10 % de revenus sur toutes vos activités.' },
   { id: 'legion', icon: '🎖', name: 'Légion d\'Honneur™', cost: 6, d: 'Vos dividendes sont doublés.' },
   { id: 'blocus', icon: '🛡', name: 'Blocus Continental', cost: 8, d: 'Les mauvaises nouvelles boursières font deux fois moins mal.' },
-  { id: 'noir', icon: '🕴', name: 'Cabinet Noir', cost: 10, d: '5 pots-de-vin par trimestre (au lieu de 3), rumeurs et infos d\'initié 1/3 moins chères.' },
-  { id: 'banque', icon: '🏦', name: 'Banque Impériale', cost: 7, d: 'Intérêts −40 % et plafond d\'emprunt +30 %.' },
+  { id: 'noir', icon: '🕶', name: 'Cabinet Noir', cost: 10, d: '+2 pots-de-vin par trimestre, rumeurs et infos d\'initié 1/3 moins chères.' },
+  { id: 'banque', icon: '🏛', name: 'Banque Impériale', cost: 7, d: 'Intérêts −40 % et plafond d\'emprunt +30 %.' },
+];
+const reformCost = () => Math.ceil(5 * Math.pow(1.45, G.refs));
+const RELICS = [
+  { id: 'bicorne', icon: '🎩', name: 'Bicorne maudit', d: 'Revenus ×1,4 mais Radar ×1,4.' },
+  { id: 'josephine', icon: '👜', name: 'Sac de Joséphine', d: 'Reçoit tout de suite 4 trimestres de revenus (ou 4× le trésor de départ).', on: () => { G.cash += Math.max(4 * startCash(), 4 * U()); } },
+  { id: 'aigle', icon: '🦅', name: 'Aigle de Marengo', d: 'Territoires −30 % de coût.' },
+  { id: 'grognards', icon: '🪖', name: 'Grognards fidèles', d: 'Aucune grève et +10 % de revenus.' },
+  { id: 'cabinet', icon: '🗝', name: 'Cabinet des curiosités', d: 'Infos d\'initié gratuites et sans Radar.' },
+  { id: 'livre', icon: '📒', name: 'Livre de comptes truqué', d: 'Dividendes ×2, mais intérêts ×1,3.' },
+  { id: 'tabatiere', icon: '🫖', name: 'Tabatière de l\'Empereur', d: 'Le Radar baisse de 2 de plus chaque trimestre.' },
+  { id: 'titane', icon: '⛑', name: 'Casque en titane', d: 'Risque de surchauffe ÷4.' },
+  { id: 'legion2', icon: '🗡', name: 'Légion étrangère', d: '+2 pots-de-vin par trimestre.' },
+  { id: 'moscou', icon: '❄', name: 'Trésor de Moscou', d: 'Tribut des échéances −25 %.' },
+  { id: 'plume', icon: '🪶', name: 'Plume de Talleyrand', d: '+2 Gloire par trimestre.' },
+  { id: 'boulet', icon: '💣', name: 'Boulet de canon doré', d: 'Bourse : profondeur ×2 et dividendes +50 %.' },
+  { id: 'statue', icon: '🗽', name: 'Statue équestre', d: 'Les territoires ne font plus monter le Radar et rapportent +50 % d\'effet.' },
+  { id: 'marche', icon: '🕵', name: 'Marché noir impérial', d: 'L\'occasion du trimestre passe à −50 %.' },
+  { id: 'faust', icon: '😈', name: 'Contrat faustien', d: 'Revenus ×2, mais amendes de procès ×3 et Radar ×1,5.' },
 ];
 const MIS = [
-  { id: 'm1', t: 'Fonder une activité (onglet Corporation)', ok: () => totalLevels() > 0, r: { cash: 300 } },
-  { id: 'm2', t: 'Acheter des actions (onglet Bourse)', ok: () => G.stocks.some(s => s.held > 0), r: { cash: 200, glory: 1 } },
-  { id: 'm3', t: 'Clore ton premier trimestre', ok: () => G.turn >= 2, r: { glory: 1 } },
-  { id: 'm4', t: 'Améliorer une activité au niveau 2', ok: () => G.biz.some(b => b.level >= 2), r: { cash: 300, glory: 1 } },
-  { id: 'm5', t: 'Gagner 1 000 ⚜ nets en un seul trimestre', ok: () => G.lastNet >= 1000, r: { glory: 2 } },
-  { id: 'm6', t: 'Racheter la Corse (onglet Reconquête)', ok: () => G.prov[0], r: { cash: 500, glory: 3 } },
-  { id: 'm7', t: 'Promulguer ton premier décret impérial', ok: () => Object.keys(G.dec).length > 0, r: { glory: 2 } },
-  { id: 'm8', t: 'Atteindre 25 000 ⚜ de patrimoine', ok: () => netWorth() >= 25000, r: { glory: 3 } },
-  { id: 'm9', t: 'Racheter 4 provinces', ok: () => G.prov.filter(Boolean).length >= 4, r: { cash: 2000, glory: 4 } },
-  { id: 'm10', t: 'Atteindre 80 000 ⚜ de patrimoine', ok: () => netWorth() >= 80000, r: { glory: 5 } },
+  { id: 'm1', t: 'Fonder une activité (onglet Corporation)', ok: () => totalLevels() > 0, r: { cu: 1 } },
+  { id: 'm2', t: 'Acheter des actions (onglet Bourse)', ok: () => G.stocks.some(s => s.held > 0), r: { cu: 1, glory: 1 } },
+  { id: 'm3', t: 'Faire passer un trimestre (▶ Clore)', ok: () => G.turn >= 2, r: { glory: 1 } },
+  { id: 'm4', t: 'Atteindre le niveau 10 d\'une activité (revenus ×2)', ok: () => G.biz.some(b => b.level >= 10), r: { cu: 2, glory: 2 } },
+  { id: 'm5', t: 'Exploiter 3 types d\'activités différents', ok: () => BIZ_PROD.filter(i => G.biz[i].level > 0).length >= 3, r: { cu: 2, glory: 2 } },
+  { id: 'm6', t: 'Payer votre première échéance impériale', ok: () => G.ech >= 1, r: { glory: 3 } },
+  { id: 'm7', t: 'Racheter un premier territoire (onglet Territoires)', ok: () => G.terr >= 1, r: { glory: 3 } },
+  { id: 'm8', t: 'Promulguer un décret impérial (onglet Décrets)', ok: () => Object.keys(G.dec).length > 0, r: { glory: 2 } },
+  { id: 'm9', t: 'Reconquérir la France entière (8 territoires)', ok: () => G.terr >= 8, r: { cu: 5, glory: 6 } },
+  { id: 'm10', t: 'Atteindre 1 M de patrimoine', ok: () => netWorth() >= 1e6, r: { glory: 5 } },
+  { id: 'm11', t: 'Atteindre 1 B de patrimoine', ok: () => netWorth() >= 1e9, r: { glory: 10 } },
 ];
 const UP = [
   s => `Fuite de l'Imperial Feed™ : « ${s.name} aurait le vent en poupe. »`,
@@ -214,66 +287,103 @@ const FLUFF = [
   'Sondage : 87 % des Français ne savent plus qu\'il y a eu un Empire. 13 % pensent que c\'est une marque de lessive.',
 ];
 const TUTO = [
-  { i: '⚜', t: 'Bienvenue, Sire', x: 'An 2736. Les mégacorporations possèdent tout, y compris la France. Vous êtes Napoléon Bonaparte-Dupont, 19e du nom, et vous voulez la racheter. <b>Objectif : racheter les 8 provinces</b> en 40 trimestres, sans finir en prison ni en faillite.' },
-  { i: '🏭', t: 'Gagner des ⚜', x: 'Dans l\'onglet <b>Corporation</b>, construisez des activités et améliorez-les. Elles rapportent des ⚜ à chaque fin de trimestre. Les moins chères sont les plus rentables au début.' },
-  { i: '📈', t: 'Investir en Bourse', x: 'Achetez des actions pas chères, revendez-les plus cher, encaissez des dividendes. L\'<b>Imperial Feed™</b> donne des indices sur les cours à venir… mais 1 sur 5 est faux. Les rumeurs et infos d\'initié sont possibles, mais risquées.' },
-  { i: '📡', t: 'Le Radar du Conseil', x: 'Chaque manœuvre douteuse fait monter le <b>Radar</b>. À 100 : procès et amende. Au deuxième procès : exil sur une station orbitale, fin de partie. Surveillez la jauge à gauche.' },
-  { i: '▶', t: 'Clore le trimestre', x: 'Quand vous avez fini vos achats, appuyez sur <b>Clore le trimestre</b> (ou la touche <b>Espace</b>). Le conseiller bleu vous suggère toujours la prochaine étape, et les <b>Missions</b> vous guident au début.' },
+  { i: '⚜', t: 'Bienvenue, Sire', x: 'An 2736. Les mégacorporations possèdent tout, y compris la France. Vous êtes Napoléon Bonaparte-Dupont, 19e du nom, et vous voulez tout racheter. <b>Le jeu est infini</b> : chaque règne finit par tomber, mais votre <b>Légende</b> vous rend plus fort au suivant.' },
+  { i: '🏭', t: 'Démarrage éclair', x: 'Dans <b>Corporation</b>, achetez des niveaux de Mines de Lithium. Au début tout va très vite : réinvestissez tout. Vous pouvez acheter ×10 ou au max, et les niveaux 10, 25, 50… <b>doublent les revenus</b>. Utilisez <b>⏩ ×5</b> et <b>⏭ ×25</b> pour accélérer.' },
+  { i: '⏳', t: 'Les échéances impériales', x: 'Tous les 10 trimestres, le Conseil réclame un <b>tribut</b> de plus en plus lourd. Gardez assez de trésor en réserve. Impayé : votre règne s\'achève. Payé : vous gagnez de la Gloire et choisissez une <b>relique</b>.' },
+  { i: '📈', t: 'Bourse, Radar, territoires', x: 'La Bourse offre des gains vite faits, mais vos ordres déplacent les cours. Les manœuvres douteuses font monter le <b>Radar</b> (100 = procès). Rachetez des <b>territoires</b> (France, Europe, Monde, étoiles…) pour multiplier vos revenus.' },
+  { i: '★', t: 'Abdiquer pour renaître', x: 'Quand votre empire stagne, <b>abdiquez</b> (menu ☰) : vous gagnez de la <b>Légende</b> selon votre patrimoine, vos échéances et vos territoires. Dépensez-la dans l\'<b>Héritage</b> : trésor de départ, revenus, automatisation, nouvelles activités… Chaque règne va plus loin.' },
 ];
 
-let G;
+let G = null;
 
-/* ---------- Helpers d'état ---------- */
+/* ---------- Dérivés ---------- */
+const rel = id => !!G && G.relics.includes(id);
 const st = id => G.stocks.find(s => s.id === id);
-const bz = id => G.biz.find(b => b.id === id);
-const bdef = id => BIZ.find(b => b.id === id);
-const owned = id => bz(id).level > 0;
+const owned = id => G.biz[BIZ.findIndex(b => b.id === id)].level > 0;
+const lv = id => G.biz[BIZ.findIndex(b => b.id === id)].level;
 const totalLevels = () => G.biz.reduce((a, b) => a + b.level, 0);
 const stockValue = () => G.stocks.reduce((a, s) => a + s.held * s.price, 0);
 const bizValue = () => G.biz.reduce((a, b) => a + b.inv * .6, 0);
-const provValue = () => PROV.reduce((a, p, i) => G.prov[i] ? a + p.cost * .7 : a, 0);
-const provIncome = () => PROV.reduce((a, p, i) => G.prov[i] ? a + p.inc : a, 0);
-const assets = () => Math.max(0, G.cash) + stockValue() + bizValue() + provValue();
-const netWorth = () => G.cash + stockValue() + bizValue() + provValue() - G.debt;
-const borrowLimit = () => Math.round((3000 + .6 * assets()) * (G.dec.banque ? 1.3 : 1));
-const rate = () => G.rate * (G.dec.banque ? .6 : 1);
-const inflMax = () => G.dec.noir ? 5 : 3;
-const rumorCost = () => G.dec.noir ? 200 : 300;
-const tipCost = () => G.dec.noir ? 270 : 400;
-const bizIncome = (b, lvl = b.level) => bdef(b.id).inc * Math.pow(lvl, .85) * WAGE[G.wage].m * (G.dec.armee ? 1.1 : 1);
-const expIncome = () => G.biz.reduce((a, b) => b.level && !b.down ? a + bizIncome(b) : a, 0) + provIncome();
-const expNet = () => expIncome() - SAFE[G.safety].cost - G.debt * rate();
-const logMsg = t => { G.log.unshift({ turn: Math.min(G.turn, MAX), t }); if (G.log.length > 80) G.log.pop(); };
-const addHeat = n => { G.heat = Math.max(0, Math.min(120, G.heat + (n > 0 ? n * DIFF[G.diff].heat : n))); };
+const terrCost = n => 2000 * Math.pow(1.6, n) * (rel('aigle') ? .7 : 1);
+const terrValue = () => { let v = 0; for (let n = 0; n < G.terr; n++) v += terrCost(n) * .7; return v; };
+const assets = () => Math.max(0, G.cash) + stockValue() + bizValue() + terrValue();
+const netWorth = () => G.cash + stockValue() + bizValue() + terrValue() - G.debt;
+const startCash = () => 1000 * Math.pow(2, ul('cash'));
+const heatMult = () => Math.max(.3, 1 - .07 * ul('diplo')) * (rel('bicorne') ? 1.4 : 1) * (rel('faust') ? 1.5 : 1);
+const terrBonus = () => 1 + .04 * G.terr * (rel('statue') ? 1.5 : 1);
+const incMult = () => Math.pow(1.2, ul('income')) * terrBonus() * (1 + .05 * G.refs) * (G.dec.armee ? 1.1 : 1) * (rel('bicorne') ? 1.4 : 1) * (rel('faust') ? 2 : 1) * (rel('grognards') ? 1.1 : 1) * WAGE[G.wage].m;
+const bizIncomeAt = (i, L) => BIZ[i].c0 * BIZ[i].r * L * msMult(L) * incMult();
+const bizIncome = i => bizIncomeAt(i, G.biz[i].level);
+const expIncome = () => BIZ_PROD.reduce((a, i) => G.biz[i].level && !G.biz[i].down ? a + bizIncome(i) : a, 0);
+const safeCost = () => SAFE[G.safety].pct * expIncome();
+const rate = () => G.rate * (G.dec.banque ? .6 : 1) * (1 - .08 * ul('bank')) * (rel('livre') ? 1.3 : 1);
+const borrowLimit = () => Math.round((3000 + .6 * assets()) * (G.dec.banque ? 1.3 : 1) * (1 + .12 * ul('bank')));
+const expNet = () => expIncome() - safeCost() - G.debt * rate();
+const inflMax = () => 3 + ul('infl') + (G.dec.noir ? 2 : 0) + (rel('legion2') ? 2 : 0);
+const U = () => Math.max(100, expIncome());
+const u = n => Math.round(U() * n);
+const rumorCost = () => Math.round(Math.max(60, .35 * U()) * (G.dec.noir ? .67 : 1));
+const tipCost = () => rel('cabinet') ? 0 : Math.round(Math.max(100, .5 * U()) * (G.dec.noir ? .67 : 1));
+const lawyerCost = () => Math.max(300, Math.round(1.2 * U()));
+const gloryPerTurn = () => 1 + Math.floor(G.terr / 2) + ul('glory') + (rel('plume') ? 2 : 0);
+const legitReduce = () => 3 * Math.sqrt(lv('legit'));
+const echTurn = () => 10 * (G.ech + 1);
+function echBase(n) { let t = 1500; for (let k = 1; k < n; k++) t *= Math.min(40, 4 * Math.pow(1.5, k - 1)); return t; }
+const echDemand = (n = G.ech + 1) => Math.round(echBase(n) * Math.max(.3, 1 - .07 * ul('memoire')) * (rel('moscou') ? .75 : 1));
+const stockDepth = id => 6000 * Math.pow(1.11, G.turn) * Math.pow(1.6, ul('depth')) * (rel('boulet') ? 2 : 1) * STK.find(s => s.id === id).liq;
+const divMult = () => (1 + .3 * ul('div')) * (G.dec.legion ? 2 : 1) * (rel('livre') ? 2 : 1) * (rel('boulet') ? 1.5 : 1);
+const unlocked = i => (BIZ[i].unlock || 0) <= ul('horizons');
+const ERA_NAMES = ['France', 'Europe', 'Monde', 'Système solaire', 'Galaxie', 'Univers'];
+const ERA_END = [8, 18, 30, 45, 65];
+function eraOf(n) { let k = 0; while (k < ERA_END.length && n >= ERA_END[k]) k++; return k; }
+function eraEnd(n) { const k = eraOf(n); return k < ERA_END.length ? ERA_END[k] : ERA_END[ERA_END.length - 1] + 20 * (n >= 65 ? Math.floor((n - 65) / 20) + 1 : 1); }
+const TERR_NAMES = ['Corse', 'Normandie', 'Provence', 'Bretagne', 'Île-de-France', 'Alsace-Lorraine', 'Aquitaine', 'Rhône-Alpes',
+  'Belgique', 'Suisse', 'Italie', 'Espagne', 'Allemagne', 'Pologne', 'Royaume-Uni', 'Autriche', 'Portugal', 'Russie',
+  'Maghreb', 'Afrique de l\'Ouest', 'Afrique australe', 'Moyen-Orient', 'Inde', 'Chine', 'Japon', 'Australie', 'Amérique du Nord', 'Amérique du Sud', 'Arctique', 'Antarctique',
+  'Lune', 'Mars', 'Vénus', 'Mercure', 'Cérès', 'Jupiter', 'Ganymède', 'Titan', 'Saturne', 'Encelade', 'Uranus', 'Neptune', 'Pluton', 'Ceinture de Kuiper', 'Nuage d\'Oort'];
+const terrName = n => n < TERR_NAMES.length ? TERR_NAMES[n] : (n < 65 ? `Secteur galactique ${n - TERR_NAMES.length + 1}` : `Univers parallèle n°${n - 64}`);
+const TERR_FLAV = ['Le berceau de la dynastie. Reconverti en parc à thème « Napoléon™ ».', 'Annexée par un traité que personne n\'a lu.', 'Un continent entier, vendu avec ses habitants (conditions générales).', 'Un caillou, un drapeau, une plaque commémorative sponsorisée.', 'Des milliards d\'étoiles. Aucune ne vote.', 'Un univers de plus, avec ses propres corporations. Ça ne s\'arrête jamais.'];
+const logMsg = t => { G.log.unshift({ turn: G.turn, t }); if (G.log.length > 80) G.log.pop(); };
+const addHeat = n => { G.heat = Math.max(0, Math.min(150, G.heat + (n > 0 ? n * heatMult() : n))); };
 let toastT;
 function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove('on'), 2200); }
 function shock(id, p) { if (p < 0 && G.dec.blocus) p *= .5; const s = st(id); s.price = Math.max(1, s.price * (1 + p)); s.fair *= 1 + p * .4; s.hist[s.hist.length - 1] = s.price; }
-function randOwned() { const o = G.biz.filter(b => b.level > 0); return o.length ? pick(o) : null; }
-function bizCost(i) {
-  const d = BIZ[i], b = G.biz[i];
-  const c = b.level === 0 ? d.cost : Math.round(d.cost * .9 * b.level);
-  return G.deal && G.deal.i === i ? Math.round(c * (1 - G.deal.disc)) : c;
+function randOwned() { const o = BIZ_PROD.filter(i => G.biz[i].level > 0); return o.length ? G.biz[pick(o)] : null; }
+const bizOf = b => BIZ[G.biz.indexOf(b)];
+
+/* ---------- Coûts des activités ---------- */
+const dealF = i => G.deal && G.deal.i === i ? 1 - G.deal.disc : 1;
+const bizUnit = i => BIZ[i].c0 * Math.pow(GROW, G.biz[i].level) * dealF(i);
+const bizCostN = (i, n) => bizUnit(i) * (Math.pow(GROW, n) - 1) / (GROW - 1);
+function bizMaxN(i) {
+  const un = bizUnit(i); if (G.cash < un) return 0;
+  let n = Math.min(2000, Math.floor(Math.log(1 + G.cash * (GROW - 1) / un) / Math.log(GROW)));
+  while (n > 0 && bizCostN(i, n) > G.cash) n--;
+  return n;
 }
 const missing = c => c > G.cash ? `<div class="need">Il manque ${money(c - G.cash)}</div>` : '';
 
-/* ---------- Nouvelle partie / sauvegarde ---------- */
-function newGame(diff = 'normal') {
+/* ---------- Nouveau règne ---------- */
+function newGame() {
   G = {
-    diff, turn: 1, cash: DIFF[diff].cash, debt: 0, heat: 5, strikes: 0, infl: 3, wage: 1, safety: 0, rate: .04, rateT: 0, glory: 0,
+    v: 2, turn: 1, cash: startCash(), debt: 0, heat: 5, strikes: 0, lastTrial: 0, infl: 3 + ul('infl'), wage: 1, safety: 0, rate: .04, rateT: 0, glory: 0,
     stocks: STK.map(s => ({ id: s.id, price: s.p, fair: s.p, hist: [s.p], held: 0, cost: 0 })),
-    biz: BIZ.map(b => ({ id: b.id, level: 0, down: 0, inv: 0 })),
-    prov: PROV.map(() => false), dec: {}, mis: {}, deal: null, qty: 10, man: {}, report: null, lastNet: 0,
-    log: [], pending: {}, tips: {}, heads: [], queue: [], nwHist: [], gameover: null, lastEv: null, tab: 'empire',
+    biz: BIZ.map(b => ({ level: 0, down: 0, inv: 0 })),
+    terr: 0, refs: 0, ech: 0, dec: {}, relics: [], mis: {}, deal: null, qty: 10, bq: 10, man: {}, report: null, lastNet: 0,
+    log: [], pending: {}, tips: {}, heads: [], queue: [], nwHist: [], peakNW: 0, gameover: null, lastEv: null, tab: 'empire', auto: { biz: false, dec: false },
   };
+  const L0 = 3 * ul('levels');
+  if (L0 > 0) { G.biz[0].level = L0; G.biz[0].inv = BIZ[0].c0 * (Math.pow(GROW, L0) - 1) / (GROW - 1); }
+  G.infl = inflMax();
   prerollNews();
-  G.nwHist.push(netWorth());
-  logMsg('An 2736. Les mégacorporations ont acheté les États, les nuages et le mot « liberté ». Vous avez un bicorne ancestral, un trésor et un plan : racheter la France, province par province.');
+  G.nwHist.push(netWorth()); G.peakNW = netWorth();
+  logMsg('An 2736. Les mégacorporations ont acheté les États, les nuages et le mot « liberté ». Vous avez un bicorne ancestral, un trésor et un plan : racheter le monde.');
   closeModal();
   render();
 }
-function saveGame() { if (!G.gameover && !G.queue.length) lsSet(SAVE_KEY, JSON.stringify(G)); }
+function saveGame() { if (G && !G.gameover && !G.queue.length) lsSet(SAVE_KEY, JSON.stringify(G)); }
 function loadGame() {
-  try { const s = JSON.parse(lsGet(SAVE_KEY)); if (!s || !s.stocks) return false; G = s; G.queue = []; return true; } catch (e) { return false; }
+  try { const s = JSON.parse(lsGet(SAVE_KEY)); if (!s || s.v !== 2) return false; G = s; G.queue = []; return true; } catch (e) { return false; }
 }
 function prerollNews() {
   G.pending = {}; G.heads = []; G.tips = {};
@@ -289,25 +399,47 @@ function prerollNews() {
   });
   if (G.heads.length < 2) G.heads.push({ t: pick(FLUFF) });
   G.deal = null;
-  if (Math.random() < .6) { const c = G.biz.map((b, i) => i).filter(i => G.biz[i].level < 5); if (c.length) G.deal = { i: pick(c), disc: .25 }; }
+  if (Math.random() < .6) { const c = BIZ_PROD.filter(i => unlocked(i)); G.deal = { i: pick(c), disc: rel('marche') ? .5 : .25 }; }
+}
+function startRelicChoice(intro) { G.queue.push(relicEvent(intro)); }
+function relicEvent(intro) {
+  const pool = RELICS.filter(r => !G.relics.includes(r.id)).sort(() => Math.random() - .5).slice(0, 3 + ul('relics'));
+  if (!pool.length) return { title: '🎁 Butin de guerre', text: 'Vous avez déjà toutes les reliques. Le Conseil est mécontent.', choices: [{ label: 'Prendre 5 Gloire à la place', run: () => { G.glory += 5; return '+5 Gloire.'; } }] };
+  return {
+    title: '🎁 Choisissez une relique', text: (intro || '') + ' Les reliques sont gardées jusqu\'à la fin du règne.',
+    choices: pool.map(r => ({ label: `${r.icon} ${r.name}`, desc: r.d, run: () => { G.relics.push(r.id); if (r.on) r.on(); return `Relique obtenue : ${r.name}.`; } })),
+  };
 }
 
 /* ---------- Actions joueur ---------- */
 function setQty(q) { G.qty = q; render(); }
+function setBq(q) { G.bq = q; render(); }
+function buyQuote(id, n) { const s = st(id), d = stockDepth(id); const imp = Math.min(n * s.price / d, 3); return { cost: n * s.price * (1 + imp / 2) * 1.01, imp, avg: s.price * (1 + imp / 2) }; }
+function maxBuy(id) {
+  const s = st(id), d = stockDepth(id), C = G.cash / 1.01; if (C <= 0) return 0;
+  const x = d * (-1 + Math.sqrt(1 + 2 * C / d));
+  return Math.floor(Math.min(x, 3 * d) / s.price);
+}
 function buy(id) {
   const s = st(id);
-  let n = G.qty === 'max' ? Math.floor(G.cash / (s.price * 1.01)) : G.qty;
+  let n = G.qty === 'max' ? maxBuy(id) : G.qty;
   if (n <= 0) return toast('Fonds insuffisants');
-  const c = s.price * n * 1.01;
-  if (c > G.cash) { n = Math.floor(G.cash / (s.price * 1.01)); if (n <= 0) return toast('Fonds insuffisants'); toast(`Fonds limités : achat de ${n} au lieu de ${G.qty}`); }
-  s.cost = (s.cost * s.held + s.price * n) / (s.held + n);
-  G.cash -= s.price * n * 1.01; s.held += n; render();
+  let q = buyQuote(id, n);
+  if (q.cost > G.cash) { n = maxBuy(id); if (n <= 0) return toast('Fonds insuffisants'); q = buyQuote(id, n); toast(`Fonds limités : achat de ${num(n)}`); }
+  s.cost = (s.cost * s.held + q.avg * n) / (s.held + n);
+  G.cash -= q.cost; s.held += n;
+  s.price *= 1 + q.imp * .5; s.hist[s.hist.length - 1] = s.price;
+  render();
 }
 function sell(id) {
-  const s = st(id);
+  const s = st(id), d = stockDepth(id);
   let n = G.qty === 'max' ? s.held : Math.min(G.qty, s.held);
   if (n <= 0) return;
-  G.cash += s.price * n * .99; s.held -= n; if (!s.held) s.cost = 0; render();
+  const imp = Math.min(n * s.price / d, 1.8);
+  G.cash += n * s.price * (1 - imp / 2) * .99;
+  s.held -= n; if (!s.held) s.cost = 0;
+  s.price = Math.max(1, s.price * Math.max(.2, 1 - imp * .5)); s.hist[s.hist.length - 1] = s.price;
+  render();
 }
 function toggleMan(id) { G.man[id] = !G.man[id]; render(); }
 function rumor(id, dir) {
@@ -315,39 +447,48 @@ function rumor(id, dir) {
   if (G.cash < rumorCost()) return toast('Fonds insuffisants');
   G.cash -= rumorCost(); G.infl--; addHeat(6);
   G.pending[id] = (G.pending[id] || 0) + dir * rnd(.08, .14);
-  logMsg(`Vous arrosez un influenceur : ${id} sera ${dir > 0 ? 'porté aux nues' : 'traîné dans la boue'}. (−${rumorCost()}, Radar +6)`);
+  logMsg(`Vous arrosez un influenceur : ${id} sera ${dir > 0 ? 'porté aux nues' : 'traîné dans la boue'}. (−${num(rumorCost())}, Radar +6)`);
   toast(dir > 0 ? `Rumeur flatteuse lancée sur ${id}` : `Calomnie lancée sur ${id}`);
   render();
 }
 function tip(id) {
   if (G.infl < 1) return toast('Plus de pots-de-vin ce trimestre');
   if (G.cash < tipCost()) return toast('Fonds insuffisants');
-  G.cash -= tipCost(); G.infl--; addHeat(5); G.tips[id] = G.pending[id] || 0;
-  logMsg(`Un cadre sup' en burn-out vous vend une info d'initié sur ${id}. (−${tipCost()}, Radar +5)`);
+  G.cash -= tipCost(); G.infl--; if (!rel('cabinet')) addHeat(5); G.tips[id] = G.pending[id] || 0;
+  logMsg(`Un cadre sup' en burn-out vous vend une info d'initié sur ${id}.`);
   render();
 }
-function buyBiz(i) {
-  const b = G.biz[i], c = bizCost(i);
-  if (b.level >= 5) return;
-  if (c > G.cash) return toast('Fonds insuffisants');
-  G.cash -= c; b.inv += c; b.level++;
-  logMsg(b.level === 1 ? `Inauguration : ${BIZ[i].name}. Ruban coupé, employés non rémunérés.` : `${BIZ[i].name} passe au niveau ${b.level}. Plus de profits, moins de scrupules.`);
-  toast(b.level === 1 ? `${BIZ[i].icon} Activité fondée !` : `${BIZ[i].icon} Niveau ${b.level} !`);
-  render();
-}
-function buyProv(i) {
-  if (G.prov[i]) return;
-  const p = PROV[i];
-  if (p.cost > G.cash) return toast('Fonds insuffisants');
-  G.cash -= p.cost; G.prov[i] = true; addHeat(8);
-  logMsg(`🇫🇷 Rachat de ${p.name} au Conseil des Corporations. Elles n'aiment pas qu'on touche à leurs parkings. (Radar +8)`);
-  toast(`🇫🇷 ${p.name} reconquise !`);
-  if (G.prov.every(Boolean)) {
-    G.gameover = { win: true, title: '👑 LE SACRE', text: 'Les huit provinces sont à vous. Vous vous couronnez vous-même, dans une cathédrale sponsorisée, devant 3 milliards de spectateurs (dont 2,9 milliards de bots). Le Conseil des Corporations applaudit poliment : vous êtes désormais leur meilleur client.' };
-    return showEnd();
+function buyBiz(i, silent) {
+  const b = G.biz[i];
+  let n = G.bq === 'max' ? bizMaxN(i) : G.bq;
+  if (n <= 0) n = 1;
+  let c = bizCostN(i, n);
+  if (c > G.cash) { if (silent) return false; return toast('Fonds insuffisants'); }
+  G.cash -= c; b.inv += c;
+  const before = b.level; b.level += n;
+  const ms = MS.filter(m => b.level >= m && before < m).length;
+  if (!silent) {
+    logMsg(before === 0 ? `Inauguration : ${BIZ[i].name}. Ruban coupé, employés non rémunérés.` : `${BIZ[i].name} passe au niveau ${b.level}.`);
+    toast(ms ? `${BIZ[i].icon} Palier atteint : revenus ×2 !` : `${BIZ[i].icon} Niveau ${b.level}`);
+    render();
   }
-  render();
+  return true;
 }
+function buyTerr(silent) {
+  const c = terrCost(G.terr);
+  if (c > G.cash) { if (!silent) toast('Fonds insuffisants'); return false; }
+  G.cash -= c; const name = terrName(G.terr); G.terr++; if (!rel('statue')) addHeat(6);
+  logMsg(`🏴 Rachat : ${name}. Les corporations n'aiment pas qu'on touche à leurs parkings.`);
+  if (!silent) toast(`🏴 ${name} reconquis !`);
+  if (G.terr === eraEnd(G.terr - 1) || ERA_END.includes(G.terr) || (G.terr > 65 && (G.terr - 65) % 20 === 0)) {
+    const k = eraOf(G.terr - 1);
+    G.glory += 5 * (k + 1);
+    G.queue.push(Object.assign(relicEvent(`Le Sacre ! ${G.terr} territoires sont à vous : ${ERA_NAMES[Math.min(k, ERA_NAMES.length - 1)]} reconquise(e). Les corporations applaudissent poliment (elles ont des actions chez vous). +${5 * (k + 1)} Gloire.`), { title: '👑 LE SACRE' }));
+  }
+  if (!silent) render();
+  return true;
+}
+function buyAllTerr() { let n = 0; while (G.queue.length === 0 && buyTerr(true) && n < 50) n++; if (!n) toast('Fonds insuffisants'); render(); if (G.queue.length) processQueue(); }
 function buyDec(id) {
   const d = DEC.find(x => x.id === id);
   if (G.dec[id]) return;
@@ -357,78 +498,108 @@ function buyDec(id) {
   toast(`${d.icon} Décret promulgué !`);
   render();
 }
+function buyReform() {
+  const c = reformCost();
+  if (G.glory < c) return toast('Pas assez de Gloire');
+  G.glory -= c; G.refs++;
+  logMsg(`📣 Réforme n°${G.refs} : propagande de masse. Revenus +5 %.`);
+  toast('📣 Réforme promulguée : revenus +5 %'); render();
+}
 function setWage(i) { G.wage = i; render(); }
 function setSafe(i) { G.safety = i; render(); }
-function borrow(n) {
+function borrow(f) {
   const room = borrowLimit() - G.debt;
-  n = Math.min(n, room); if (n <= 0) return toast('Le banquier secoue la tête : plafond atteint.');
+  const n = Math.min(room, f === 'max' ? room : borrowLimit() * f); if (n <= 1) return toast('Le banquier secoue la tête : plafond atteint.');
   G.debt += n; G.cash += n; render();
 }
-function repay(n) {
-  if (n === 'all') n = G.debt;
-  n = Math.min(n, G.debt, Math.max(0, G.cash)); if (n <= 0) return toast('Rien à rembourser (ou pas de quoi).');
-  G.debt -= n; G.cash -= n; render();
+function repay(f) {
+  let n = f === 'all' ? G.debt : G.debt * f;
+  n = Math.min(n, Math.max(0, G.cash)); if (n <= 1) return toast('Rien à rembourser (ou pas de quoi).');
+  G.debt -= n; G.cash -= n; if (G.debt < 1) G.debt = 0; render();
 }
 function lawyer() {
-  if (G.cash < 800) return toast('Fonds insuffisants');
-  G.cash -= 800; addHeat(-20);
-  logMsg('Talleyrand & Associés « clarifient » votre dossier. (−800, Radar −20)'); toast('Dossier clarifié : Radar −20'); render();
+  const c = lawyerCost();
+  if (G.cash < c) return toast('Fonds insuffisants');
+  G.cash -= c; addHeat(-20);
+  logMsg(`Talleyrand & Associés « clarifient » votre dossier. (−${num(c)}, Radar −20)`); toast('Dossier clarifié : Radar −20'); render();
 }
 function setTab(t) { G.tab = t; render(); }
+function toggleAutoOpt(k) { G.auto[k] = !G.auto[k]; render(); }
 
 /* ---------- Missions ---------- */
+function missionReward(m) { return [m.r.cu ? '≈ ' + money(Math.max(150, U()) * m.r.cu) : '', m.r.glory ? m.r.glory + ' Gloire' : ''].filter(Boolean).join(' + '); }
 function checkMissions() {
+  if (!G) return;
   MIS.forEach(m => {
     if (G.mis[m.id] || !m.ok()) return;
     G.mis[m.id] = true;
-    if (m.r.cash) G.cash += m.r.cash;
-    if (m.r.glory) G.glory += m.r.glory;
-    const rw = [m.r.cash ? money(m.r.cash) : '', m.r.glory ? m.r.glory + ' Gloire' : ''].filter(Boolean).join(' + ');
+    const cash = m.r.cu ? Math.round(Math.max(150, U()) * m.r.cu) : 0;
+    G.cash += cash; if (m.r.glory) G.glory += m.r.glory;
+    const rw = [cash ? money(cash) : '', m.r.glory ? m.r.glory + ' Gloire' : ''].filter(Boolean).join(' + ');
     logMsg(`🎯 Mission accomplie : ${m.t}. Récompense : ${rw}.`);
     toast(`🎯 Mission accomplie ! +${rw}`);
   });
 }
 const curMission = () => MIS.find(m => !G.mis[m.id]);
 
-/* ---------- Fin de trimestre ---------- */
-function endTurn() {
-  if (G.queue.length || G.gameover || G.turn > MAX) return;
-  document.activeElement && document.activeElement.blur();
-  const nw0 = netWorth(), cash0 = G.cash;
+/* ---------- Boucle principale ---------- */
+function autoActions() {
+  if (ul('auto') < 1) return;
+  const reserve = (echTurn() - G.turn <= 2) ? echDemand() : 0;
+  if (G.auto.biz) {
+    for (let k = 0; k < 120; k++) {
+      let best = -1, bi = -1;
+      BIZ_PROD.forEach(i => {
+        if (!unlocked(i)) return;
+        const c = bizUnit(i); if (c > G.cash - reserve) return;
+        const L = G.biz[i].level, g = bizIncomeAt(i, L + 1) - (L ? bizIncomeAt(i, L) : 0), roi = g / c;
+        if (roi > best) { best = roi; bi = i; }
+      });
+      if (bi < 0) break;
+      const c = bizUnit(bi); G.cash -= c; G.biz[bi].inv += c; G.biz[bi].level++;
+    }
+  }
+  if (ul('auto') >= 2 && G.auto.dec) {
+    DEC.forEach(d => { if (!G.dec[d.id] && G.glory >= d.cost) { G.glory -= d.cost; G.dec[d.id] = true; } });
+    while (G.glory >= reformCost() && G.refs < 500) { G.glory -= reformCost(); G.refs++; }
+    let n = 0;
+    while (n++ < 5 && G.heat < 60 && terrCost(G.terr) <= (G.cash - reserve) * .5 && G.queue.length === 0) buyTerr(true);
+  }
+}
+function turnCore() {
+  const cash0 = G.cash, nw0 = netWorth();
   let income = 0, divs = 0;
-  G.biz.forEach(b => {
+  BIZ_PROD.forEach(i => {
+    const b = G.biz[i];
     if (!b.level) return;
     if (b.down > 0) { b.down--; return; }
-    income += bizIncome(b) * (b.id === 'orbitales' ? rnd(.5, 1.5) : rnd(.9, 1.1));
+    income += bizIncome(i) * (BIZ[i].vol ? rnd(.5, 1.5) : rnd(.92, 1.08));
   });
-  income += provIncome() * rnd(.95, 1.05);
-  const safeCost = SAFE[G.safety].cost;
-  const interest = G.debt * rate();
-  G.cash += income - safeCost - interest;
+  const sc = safeCost(), interest = G.debt * rate();
+  G.cash += income - sc - interest;
 
-  let h = -2 + (G.wage === 0 ? 1 : G.wage === 2 ? -1 : 0);
-  h += bz('nanobrume').level; h -= 4 * bz('legit').level; if (G.dec.code) h -= 2;
-  addHeat(h);
-  G.glory += 1 + G.prov.filter(Boolean).length;
-
+  let pos = (G.wage === 0 ? 1 : 0), neg = 2 + (G.wage === 2 ? 1 : 0) + legitReduce() + (G.dec.code ? 2 : 0) + (rel('tabatiere') ? 2 : 0);
+  BIZ_PROD.forEach(i => { if (BIZ[i].heat && G.biz[i].level) pos += .8 * Math.sqrt(G.biz[i].level); });
+  addHeat(pos); addHeat(-neg);
+  G.glory += gloryPerTurn();
   if (G.rateT > 0 && --G.rateT === 0) G.rate = .04;
+  if (G.strikes > 0 && G.turn - G.lastTrial >= 20) { G.strikes--; G.lastTrial = G.turn; logMsg('Votre casier judiciaire s\'efface (un peu, par ancienneté).'); }
 
-  G.biz.forEach(b => {
-    if (!b.level || b.down > 0 || !EXPLO.includes(b.id)) return;
-    if (Math.random() < SAFE[G.safety].p * (b.level > 3 ? 1.3 : 1)) {
-      const fee = Math.round(bdef(b.id).cost * .15 * b.level);
-      b.down = 2; G.cash -= fee;
-      logMsg(`🔥 SURCHAUFFE. ${bdef(b.id).name} a fondu. Réparations : ${money(fee)}, 2 trimestres d'arrêt.`);
-      G.queue.push({ title: '🔥 Surchauffe critique', text: `${bdef(b.id).name} vient de fondre. Bilan : ${money(fee)} de réparations et 2 trimestres d'arrêt. Le service communication précise que « tout est sous contrôle » (la pièce, elle, est en feu). <br><small>Astuce : un meilleur niveau de sécurité industrielle réduit ce risque.</small>`, choices: [{ label: 'Parler d\'« incident thermique positif »', run: () => 'Le communiqué dit « montée en température enthousiasmante ». Personne n\'est dupe, mais personne ne vérifie.' }] });
+  BIZ_PROD.forEach(i => {
+    const b = G.biz[i];
+    if (!b.level || b.down > 0 || !BIZ[i].explo) return;
+    if (Math.random() < SAFE[G.safety].p * (rel('titane') ? .25 : 1) * (b.level > 30 ? 1.3 : 1)) {
+      const fee = Math.round(bizIncome(i)); b.down = 2; G.cash -= fee;
+      logMsg(`🔥 SURCHAUFFE. ${BIZ[i].name} a fondu. Réparations : ${money(fee)}, 2 trimestres d'arrêt.`);
+      G.queue.push({ title: '🔥 Surchauffe critique', text: `${BIZ[i].name} vient de fondre. Bilan : ${money(fee)} de réparations (un trimestre de revenus de ce site) et 2 trimestres d'arrêt. Le service communication précise que « tout est sous contrôle » (la pièce, elle, est en feu).<br><small>Astuce : un meilleur niveau de sécurité industrielle réduit ce risque.</small>`, choices: [{ label: 'Parler d\'« incident thermique positif »', run: () => 'Le communiqué dit « montée en température enthousiasmante ». Personne n\'est dupe, mais personne ne vérifie.' }] });
     }
   });
-
-  if (totalLevels() > 0 && Math.random() < WSTRIKE[G.wage]) G.queue.push(strikeEv());
+  if (totalLevels() > 0 && !rel('grognards') && Math.random() < WSTRIKE[G.wage]) G.queue.push(strikeEv());
 
   const moves = [];
   G.stocks.forEach((s, i) => {
     const d = STK[i], p0 = s.price;
-    divs += s.held * s.price * d.div * (G.dec.legion ? 2 : 1);
+    divs += s.held * s.price * d.div * divMult();
     s.fair *= Math.exp(.008 + .03 * gauss());
     if (d.id === 'NEBU' && Math.random() < .12) s.fair *= Math.exp(rnd(-.4, .4));
     let sh = G.pending[s.id] || 0;
@@ -441,26 +612,56 @@ function endTurn() {
     moves.push({ id: s.id, ch: s.price / p0 - 1 });
   });
   G.cash += divs;
-  G.lastNet = G.cash - cash0;
   moves.sort((a, b) => b.ch - a.ch);
-  G.report = { turn: G.turn, income, charges: safeCost + interest, divs, nw0, best: moves[0], worst: moves[moves.length - 1] };
+  G.report = { turn: G.turn, income, charges: sc + interest, divs, nw0, best: moves[0], worst: moves[moves.length - 1] };
+  logMsg(`Trimestre ${G.turn} : recettes ${money(income)}, charges ${money(sc + interest)}, dividendes ${money(divs)}.`);
 
-  logMsg(`Trimestre ${G.turn} : recettes ${money(income)}, charges ${money(safeCost + interest)}, dividendes ${money(divs)}.`);
-
-  if (Math.random() < DIFF[G.diff].ev) {
+  if (Math.random() < .7) {
     const ok = EVENTS.filter(e => e.id !== G.lastEv && (!e.cond || e.cond()));
     const e = pick(ok); G.lastEv = e.id; G.queue.push(e.make());
   }
 
+  // Échéance impériale
+  if (G.turn === echTurn()) {
+    const dem = echDemand();
+    const avail = Math.max(0, G.cash) + stockValue() * .95 + Math.max(0, borrowLimit() - G.debt);
+    if (avail < dem) {
+      G.gameover = { kind: 'fall', title: '⏳ Échéance impayée', text: `Le Conseil Mondial réclamait ${money(dem)} de tribut (échéance n°${G.ech + 1}). Vous n'aviez pas la réserve. Huissiers-drones, saisie, reprise de vos activités par une filiale du Conseil. Votre règne s'achève dans une clause en petits caractères.` };
+    } else {
+      G.cash -= dem; G.ech++; G.glory += 3;
+      logMsg(`⏳ Échéance impériale n°${G.ech} payée : −${money(dem)}. +3 Gloire.`);
+      G.queue.push(relicEvent(`Échéance n°${G.ech} payée (−${money(dem)}). Le Conseil, de bonne humeur, vous offre un butin de guerre.`));
+    }
+  }
+
   G.turn++; G.infl = inflMax();
   prerollNews();
-  render();
+  autoActions();
+  settleCash();
+  if (!G.gameover && G.heat >= 100) trial();
+  const nw = netWorth();
+  G.lastNet = G.cash - cash0 + (nw - nw0 - (G.cash - cash0)) * 0;
+  G.peakNW = Math.max(G.peakNW, nw);
+  G.nwHist.push(nw); if (G.nwHist.length > 240) G.nwHist = G.nwHist.filter((_, i) => i % 2 === 0 || i === G.nwHist.length - 1);
+  if (G.report) G.report.nw1 = nw;
+}
+function advance(n) {
+  if (!G || G.queue.length || G.gameover) return;
+  document.activeElement && document.activeElement.blur && document.activeElement.blur();
+  for (let k = 0; k < n; k++) { turnCore(); if (G.queue.length || G.gameover) break; }
   processQueue();
 }
+let autoTimer = null;
+function toggleAuto() {
+  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  else autoTimer = setInterval(() => { if (!G || G.gameover || G.queue.length || $('#modal').innerHTML) return; advance(1); }, 550);
+  render();
+}
+function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
 
 /* ---------- Événements ---------- */
 function strikeEv() {
-  const cost = 300 + 80 * totalLevels();
+  const cost = u(.6);
   return {
     title: '✊ Grève des collaborateurs',
     text: 'Vos « collaborateurs » exigent « de ne pas être remplacés par un algorithme qui travaille mieux ». Ils ont des pancartes holographiques. L\'une est même bien écrite.<br><small>Astuce : la politique sociale « Bien-être » supprime les grèves.</small>',
@@ -471,35 +672,35 @@ function strikeEv() {
   };
 }
 const EVENTS = [
-  { id: 'inspect', cond: () => totalLevels() > 0, make: () => ({
+  { id: 'inspect', cond: () => totalLevels() > 0, make: () => { const a = u(.5), b = u(.15), f = u(2.5); return {
     title: '🔍 Audit de conformité',
     text: 'Un auditeur-drone du Conseil Mondial survole vos sites avec un air neutre. Il note tout, y compris ce qui n\'existe pas.',
     choices: [
-      { label: 'Corrompre (−600)', desc: 'Radar +5.', run: () => { G.cash -= 600; addHeat(5); return 'Il découvre soudain que tout est « conforme ». Il repart avec une mise à jour gratuite.'; } },
-      { label: 'Jouer la transparence (−200)', desc: '50 % : amende de 1 800.', run: () => { G.cash -= 200; if (Math.random() < .5) { G.cash -= 1800; return 'Il relève 14 infractions. Il adore ça. Amende : 1 800 ⚜.'; } return 'Miracle : il confond votre usine avec un monument historique classé.'; } },
-    ] }) },
-  { id: 'press', make: () => ({
+      { label: `Corrompre (−${money(a)})`, desc: 'Radar +5.', run: () => { G.cash -= a; addHeat(5); return 'Il découvre soudain que tout est « conforme ». Il repart avec une mise à jour gratuite.'; } },
+      { label: `Jouer la transparence (−${money(b)})`, desc: `50 % : amende de ${money(f)}.`, run: () => { G.cash -= b; if (Math.random() < .5) { G.cash -= f; return `Il relève 14 infractions. Il adore ça. Amende : ${money(f)}.`; } return 'Miracle : il confond votre usine avec un monument historique classé.'; } },
+    ] }; } },
+  { id: 'press', make: () => { const a = u(.4), b = u(.25); return {
     title: '📰 Un influenceur fouineur',
     text: 'Le streamer « Vérité_Max_2736 » (4 milliards d\'abonnés) a déterré quelques détails embarrassants sur vos méthodes de gestion.',
     choices: [
-      { label: 'Acheter son silence (−500)', desc: 'Radar +3.', run: () => { G.cash -= 500; addHeat(3); return 'Il diffuse un live très flatteur sur vos œuvres caritatives imaginaires.'; } },
+      { label: `Acheter son silence (−${money(a)})`, desc: 'Radar +3.', run: () => { G.cash -= a; addHeat(3); return 'Il diffuse un live très flatteur sur vos œuvres caritatives imaginaires.'; } },
       { label: 'Le laisser publier', desc: 'Radar +14 et un titre en berne.', run: () => { addHeat(14); shock(pick(STK).id, -.08); return 'Scandale en tendance. Votre majordome-robot refuse désormais de vous saluer.'; } },
-      { label: 'L\'embaucher au Ministère de la Légitimité (−300)', desc: 'Radar −5.', run: () => { G.cash -= 300; addHeat(-5); return 'Il rédige désormais vos généalogies. Elles sont très convaincantes.'; } },
-    ] }) },
-  { id: 'patent', make: () => ({
+      { label: `L'embaucher au Ministère de la Légitimité (−${money(b)})`, desc: 'Radar −5.', run: () => { G.cash -= b; addHeat(-5); return 'Il rédige désormais vos généalogies. Elles sont très convaincantes.'; } },
+    ] }; } },
+  { id: 'patent', make: () => { const a = u(1.2), w = u(4); return {
     title: '🧪 Le savant fou (freelance)',
     text: 'Un homme aux sourcils roussis et à la sacoche qui fume vous propose un brevet « révolutionnaire ». Il ne peut pas dire de quoi il s\'agit. Légalement.',
     choices: [
-      { label: 'Acheter le brevet (−1 200)', desc: '55 % : +4 000. Sinon : accident.', run: () => { G.cash -= 1200; if (Math.random() < .55) { G.cash += 4000; return 'Le brevet marche ! Vous le revendez à un concurrent, qui comprend 3 jours plus tard pourquoi c\'était drôle.'; } const b = randOwned(); if (b) b.down = Math.max(b.down, 2); return 'Le prototype a explosé. Le savant aussi. ' + (b ? bdef(b.id).name + ' est hors service 2 trimestres.' : ''); } },
+      { label: `Acheter le brevet (−${money(a)})`, desc: `55 % : +${money(w)}. Sinon : accident.`, run: () => { G.cash -= a; if (Math.random() < .55) { G.cash += w; return 'Le brevet marche ! Vous le revendez à un concurrent, qui comprend 3 jours plus tard pourquoi c\'était drôle.'; } const b = randOwned(); if (b) b.down = Math.max(b.down, 2); return 'Le prototype a explosé. Le savant aussi. ' + (b ? bizOf(b).name + ' est hors service 2 trimestres.' : ''); } },
       { label: 'Refuser poliment', run: () => 'Il s\'éloigne en marmonnant. Vous entendez une détonation au coin de la rue.' },
-    ] }) },
-  { id: 'subsidy', make: () => ({
+    ] }; } },
+  { id: 'subsidy', make: () => { const a = u(2); return {
     title: '🏛 Subvention du Conseil Mondial',
     text: 'Le Conseil des Corporations vous propose une « aide à la nostalgie ». Sans contrepartie, assure-t-il. Son porte-parole rit longtemps, puis bloque votre ligne.',
     choices: [
-      { label: 'Accepter (+1 800)', desc: 'Radar +6.', run: () => { G.cash += 1800; addHeat(6); return 'Vous touchez 1 800 ⚜. En échange, vous n\'avez rien vu, rien entendu. Les autres non plus.'; } },
+      { label: `Accepter (+${money(a)})`, desc: 'Radar +6.', run: () => { G.cash += a; addHeat(6); return `Vous touchez ${money(a)}. En échange, vous n'avez rien vu, rien entendu. Les autres non plus.`; } },
       { label: 'Refuser', run: () => 'Intègre, fier, un peu bête. Vous gardez les mains propres et la bourse vide.' },
-    ] }) },
+    ] }; } },
   { id: 'crash', make: () => ({
     title: '📉 Flash-krach algorithmique',
     text: 'Un algorithme a mal compris une blague sur Twitter 2.0. Panique générale : les cours s\'effondrent, les IA de trading se mettent en position fœtale.',
@@ -511,60 +712,57 @@ const EVENTS = [
   { id: 'satellite', make: () => ({
     title: '🛰 Satellite publicitaire en chute libre',
     text: 'Un satellite publicitaire s\'écrase sur une pouponnière. Il vantait une assurance-vie.',
-    choices: [{ label: 'Envoyer des condoléances (modèle pré-rédigé n°14)', run: () => { shock('ORBI', -.2); const b = bz('orbitales'); if (b.level) b.down = Math.max(b.down, 1); return 'ORBI chute de 20 %.' + (b.level ? ' Votre propre régie orbitale est clouée au sol un trimestre.' : ''); } }] }) },
+    choices: [{ label: 'Envoyer des condoléances (modèle pré-rédigé n°14)', run: () => { shock('ORBI', -.2); const b = G.biz[3]; if (b.level) b.down = Math.max(b.down, 1); return 'ORBI chute de 20 %.' + (b.level ? ' Votre propre régie orbitale est clouée au sol un trimestre.' : ''); } }] }) },
   { id: 'rates', make: () => { const up = Math.random() < .5; return {
     title: '🏦 La Banque Centrale (privatisée) se réveille',
     text: up ? 'L\'IA qui fixe les taux a lu un article pessimiste. Hausse des taux. Le peuple n\'a pas eu son mot à dire, ni la logique.' : 'L\'IA qui fixe les taux est de bonne humeur : elle vient de gagner à un jeu. Baisse des taux.',
-    choices: [{ label: 'Prendre acte', run: () => { G.rate = up ? .07 : .02; G.rateT = 6; return `Taux d'intérêt trimestriel à ${(G.rate * 100)} % pour 6 trimestres.`; } }] }; } },
-  { id: 'josephine', make: () => ({
+    choices: [{ label: 'Prendre acte', run: () => { G.rate = up ? .07 : .02; G.rateT = 6; return `Taux d'intérêt trimestriel de base à ${(G.rate * 100)} % pour 6 trimestres.`; } }] }; } },
+  { id: 'josephine', make: () => { const a = u(2.5), b = u(1.5); return {
     title: '⚰ Tante Joséphine (clone n°4) est décédée',
-    text: 'Elle vous lègue 2 000 ⚜, à condition que vous financiez sa statue équestre. Elle n\'a jamais monté à cheval : le cheval est un hologramme sous licence.',
+    text: `Elle vous lègue ${money(a)}, à condition que vous financiez sa statue équestre (${money(b)}). Le cheval est un hologramme sous licence.`,
     choices: [
-      { label: 'Accepter (+2 000, −1 200 de statue)', run: () => { G.cash += 800; return 'Une statue de 4 mètres orne la place. L\'hologramme du cheval a l\'air terrifié, comme elle.'; } },
+      { label: `Accepter (+${money(a)}, −${money(b)} de statue)`, run: () => { G.cash += a - b; return 'Une statue de 4 mètres orne la place. L\'hologramme du cheval a l\'air terrifié, comme elle.'; } },
       { label: 'Refuser le legs', run: () => 'Tante Joséphine vous hantera sûrement. Mais gratuitement.' },
-    ] }) },
-  { id: 'smog', make: () => ({
+    ] }; } },
+  { id: 'smog', make: () => { const f = u(1.5); return {
     title: '☣ Fuite de nano-brume',
     text: 'Un nuage rose recouvre le quartier. Tout le monde sourit sans raison et signe n\'importe quoi. Nébuleuse Futures panique.',
-    choices: [{ label: 'Nier toute responsabilité', run: () => { shock('NEBU', -.22); let r = 'NEBU chute de 22 %.'; if (owned('nanobrume')) { G.cash -= 1000; addHeat(8); r += ' Votre usine paie 1 000 ⚜ d\'amende et le Radar monte de 8.'; } return r; } }] }) },
-  { id: 'taxfraud', make: () => ({
+    choices: [{ label: 'Nier toute responsabilité', run: () => { shock('NEBU', -.22); let r = 'NEBU chute de 22 %.'; if (owned('nanobrume')) { G.cash -= f; addHeat(8); r += ` Votre usine paie ${money(f)} d'amende et le Radar monte de 8.`; } return r; } }] }; } },
+  { id: 'taxfraud', make: () => { const a = u(.4), w = u(3); return {
     title: '🧾 Optimisation fiscale orbitale',
     text: 'Votre comptable (un androïde étrangement calme) propose un montage « légèrement audacieux » via trois astéroïdes qui n\'existent pas.',
     choices: [
-      { label: 'Signer (−500)', desc: '50 % : +2 500. Sinon Radar +25.', run: () => { G.cash -= 500; if (Math.random() < .5) { G.cash += 2500; return 'Ça marche. Le Conseil reste pauvre, vous restez élégant.'; } addHeat(25); return 'L\'un des astéroïdes existait bel et bien. Il a porté plainte. Radar +25.'; } },
+      { label: `Signer (−${money(a)})`, desc: `50 % : +${money(w)}. Sinon Radar +25.`, run: () => { G.cash -= a; if (Math.random() < .5) { G.cash += w; return 'Ça marche. Le Conseil reste pauvre, vous restez élégant.'; } addHeat(25); return 'L\'un des astéroïdes existait bel et bien. Il a porté plainte. Radar +25.'; } },
       { label: 'Rester honnête (et ennuyeux)', run: () => 'Votre androïde soupire. Vous gardez une conscience propre et des impôts élevés.' },
-    ] }) },
-  { id: 'sabotage', cond: () => totalLevels() > 0, make: () => ({
+    ] }; } },
+  { id: 'sabotage', cond: () => totalLevels() > 0, make: () => { const a = u(.4); return {
     title: '🕵 Waterloo Holdings pirate vos serveurs',
     text: 'Quelqu\'un a injecté un virus dans vos usines. Vous reconnaissez le style : Waterloo Holdings. Ils ont encore choisi ce nom exprès pour vous narguer.',
     choices: [
-      { label: 'Riposter (−400)', desc: 'Radar +8.', run: () => { G.cash -= 400; addHeat(8); return 'Leurs serveurs ont mystérieusement pris feu. Un hasard, évidemment. « Enfin Waterloo, version 2 », murmurez-vous.'; } },
+      { label: `Riposter (−${money(a)})`, desc: 'Radar +8.', run: () => { G.cash -= a; addHeat(8); return 'Leurs serveurs ont mystérieusement pris feu. Un hasard, évidemment. « Enfin Waterloo, version 2 », murmurez-vous.'; } },
       { label: 'Encaisser', desc: 'Une activité à l\'arrêt 1 trimestre.', run: () => { const b = randOwned(); if (b) b.down = Math.max(b.down, 1); return 'Vous nettoyez le virus. La rage vous nourrit, mais pas vos comptes.'; } },
-    ] }) },
-  { id: 'cafe', make: () => ({
+    ] }; } },
+  { id: 'cafe', make: () => { const a = u(.8); return {
     title: '☕ Tendance : le café « authentique »',
     text: 'Un influenceur dit en direct : « Le vrai café, c\'est comme sous Napoléon ». 800 millions de personnes commandent. Aucune ne sait ce qu\'est du café.',
-    choices: [{ label: 'Profiter de la tendance', run: () => { shock('CAFE', .15); shock('VOLT', .06); let r = 'CAFE +15 %, VOLT +6 %.'; if (owned('cafe')) { G.cash += 600; r += ' Vos cafés rapportent 600 ⚜ de plus.'; } return r; } }] }) },
+    choices: [{ label: 'Profiter de la tendance', run: () => { shock('CAFE', .15); shock('VOLT', .06); let r = 'CAFE +15 %, VOLT +6 %.'; if (owned('cafe')) { G.cash += a; r += ` Vos cafés rapportent ${money(a)} de plus.`; } return r; } }] }; } },
   { id: 'ceoscandal', make: () => ({
     title: '🎭 Scandale chez les PDG',
     text: 'Le PDG d\'une corporation rivale a été surpris en train de faire quelque chose qu\'on ne décrit pas dans un journal pour enfants. Pardon™ Relations Publiques croule sous les commandes.',
     choices: [{ label: 'Lever son bicorne', run: () => { shock('PARD', .25); return 'PARD grimpe de 25 %. Les affaires des autres font vos affaires.'; } }] }) },
-  { id: 'takeover', cond: () => totalLevels() >= 3, make: () => ({
+  { id: 'takeover', cond: () => totalLevels() >= 10, make: () => { const a = u(2); return {
     title: '🦈 Offre de rachat hostile',
     text: 'Une corporation vous propose de racheter votre plus belle activité. Prix « généreux », dit-elle. Elle a aussi dit « synergies » 14 fois, ce qui est mauvais signe.',
     choices: [
       { label: 'Refuser (Radar +4)', desc: 'Ils n\'apprécieront pas.', run: () => { addHeat(4); return 'Vous refusez avec panache. Leur PDG note votre nom sur une liste. Il y a une liste.'; } },
-      { label: 'Négocier un « partenariat » (+1 500)', desc: 'Une activité tourne au ralenti 1 trimestre.', run: () => { G.cash += 1500; const b = randOwned(); if (b) b.down = Math.max(b.down, 1); return 'Vous empochez 1 500 ⚜ pour « mutualiser les ressources ». Vos ouvriers sont mutualisés avec eux.'; } },
-    ] }) },
+      { label: `Négocier un « partenariat » (+${money(a)})`, desc: 'Une activité tourne au ralenti 1 trimestre.', run: () => { G.cash += a; const b = randOwned(); if (b) b.down = Math.max(b.down, 1); return `Vous empochez ${money(a)} pour « mutualiser les ressources ». Vos ouvriers sont mutualisés avec eux.`; } },
+    ] }; } },
 ];
 
-/* ---------- File d'événements / fins de partie ---------- */
+/* ---------- File d'événements / fin de règne ---------- */
 function processQueue() {
-  if (G.queue.length) return showEvent(G.queue[0]);
-  settleCash();
-  if (G.heat >= 100) { trial(); return processQueue(); }
-  if (G.report) G.report.nw1 = netWorth();
-  if (G.gameover || G.turn > MAX) return showEnd();
+  if (G.queue.length) { stopAuto(); render(); return showEvent(G.queue[0]); }
+  if (G.gameover) { stopAuto(); render(); return showEnd(); }
   checkMissions();
   saveGame();
   render();
@@ -583,225 +781,310 @@ function chooseEv(i) {
   logMsg(ev.title.replace(/^\S+\s/, '') + ' : ' + r);
   showEvent(ev, r); render();
 }
-function nextEv() { G.queue.shift(); closeModal(); processQueue(); }
+function nextEv() { G.queue.shift(); closeModal(); settleCash(); if (!G.gameover && G.heat >= 100) trial(); processQueue(); }
 function settleCash() {
   if (G.cash >= 0) return;
   for (const s of G.stocks) {
     if (G.cash >= 0) break; if (!s.held) continue;
     const n = Math.min(s.held, Math.ceil(-G.cash / (s.price * .95)));
     G.cash += n * s.price * .95; s.held -= n; if (!s.held) s.cost = 0;
-    logMsg(`Liquidation forcée : ${n} ${s.id} bradées à 95 %.`);
+    logMsg(`Liquidation forcée : ${num(n)} ${s.id} bradées à 95 %.`);
   }
   if (G.cash < 0) {
     const b = Math.min(borrowLimit() - G.debt, -G.cash);
     if (b > 0) { G.debt += b; G.cash += b; logMsg(`Le banquier couvre votre découvert de ${money(b)}. Il sourit : mauvais signe.`); }
   }
-  if (G.cash < 0) G.gameover = { title: '💀 Faillite', text: 'Vos créanciers sont à la porte, avec des drones et des tableurs. Votre empire est dissous, puis revendu en lots, puis transformé en publicité pour une lessive.' };
+  if (G.cash < 0) {
+    const order = BIZ_PROD.filter(i => G.biz[i].level > 0).sort((a, b) => G.biz[b].inv - G.biz[a].inv);
+    for (const i of order) {
+      if (G.cash >= -1) break;
+      const b = G.biz[i], val = b.inv * .6, need = -G.cash;
+      const nl = val <= need ? 0 : Math.floor(b.level * (1 - need / val));
+      const ninv = nl ? BIZ[i].c0 * (Math.pow(GROW, nl) - 1) / (GROW - 1) : 0;
+      G.cash += Math.max(0, b.inv - ninv) * .6; b.level = nl; b.inv = ninv;
+      logMsg(`🏚 Saisie : ${BIZ[i].name} ramenée au niveau ${nl} pour couvrir vos dettes.`);
+    }
+    if (G.cash >= -1) G.cash = Math.max(G.cash, 0);
+  }
+  if (G.cash < 0 && !G.gameover) G.gameover = { kind: 'fall', title: '💀 Faillite', text: 'Vos créanciers sont à la porte, avec des drones et des tableurs. Votre empire est dissous, puis revendu en lots, puis transformé en publicité pour une lessive.' };
 }
 function trial() {
-  G.strikes++;
-  const fine = Math.round(Math.max(500, .3 * (Math.max(0, G.cash) + stockValue())));
+  G.strikes++; G.lastTrial = G.turn;
+  const fine = Math.round(Math.max(500, .3 * (Math.max(0, G.cash) + stockValue())) * (rel('faust') ? 3 : 1));
   G.cash -= fine; G.heat = 55;
-  if (G.strikes >= 2) { G.gameover = { title: '🪐 Exil à Sainte-Hélène-Orbitale', text: `Deuxième procès, deuxième condamnation. Le juge-IA vous reconnaît : vous lui avez prêté de l'argent. Il vous condamne quand même. Amende : ${money(fine)}, puis navette vers Sainte-Hélène-Orbitale, station 7, vue sur la Terre, wifi payant. L'histoire bégaye, mais avec de meilleures prestations.` }; return; }
+  settleCash();
+  if (G.strikes >= 2) { G.gameover = { kind: 'fall', title: '🪐 Exil à Sainte-Hélène-Orbitale', text: `Deuxième procès, deuxième condamnation. Le juge-IA vous reconnaît : vous lui avez prêté de l'argent. Il vous condamne quand même. Amende : ${money(fine)}, puis navette vers Sainte-Hélène-Orbitale, station 7, vue sur la Terre, wifi payant. L'histoire bégaye, mais avec de meilleures prestations.` }; return; }
   logMsg(`⚖ Tribunal arbitral : amende de ${money(fine)}. Avertissement : une deuxième condamnation = exil.`);
-  G.queue.push({ title: '⚖ Tribunal Arbitral Inter-Corporations', text: `Le Radar a débordé. Le tribunal vous inflige ${money(fine)} d'amende « pour l'exemple ». Le juge-IA précise que la prochaine fois, ce sera l'exil sur une station orbitale. Il vous envoie sa carte de visite, avec un lien sponsorisé.`, choices: [{ label: 'Payer en grinçant des dents', run: () => 'Vous sortez libre, léger de quelques milliers de ⚜ et d\'un peu de dignité. Le Radar retombe à 55.' }] });
+  G.queue.push({ title: '⚖ Tribunal Arbitral Inter-Corporations', text: `Le Radar a débordé. Le tribunal vous inflige ${money(fine)} d'amende « pour l'exemple ». Le juge-IA précise que la prochaine fois, ce sera l'exil sur une station orbitale. Il vous envoie sa carte de visite, avec un lien sponsorisé. (Le casier s'efface après 20 trimestres sans procès.)`, choices: [{ label: 'Payer en grinçant des dents', run: () => 'Vous sortez libre, léger de quelques milliers de ⚜ et d\'un peu de dignité. Le Radar retombe à 55.' }] });
 }
-const RANKS = [[0, 'Prétendant au trône (squatteur)'], [8000, 'Duc de pacotille'], [20000, 'Maréchal de salon'], [50000, 'Consul à vie (quasi)'], [110000, 'Roi de quelque chose'], [250000, 'Empereur autoproclamé'], [450000, 'Empereur reconnu (par personne, mais riche)']];
-function rank(n) { let r = RANKS[0][1]; for (const [t, name] of RANKS) if (n >= t) r = name; return r; }
+function legendGain(abd) {
+  const lg = Math.max(0, Math.log10(G.peakNW + 1) - 2);
+  let g = Math.floor(lg * lg * 1.2) + 2 * G.ech + G.terr;
+  g *= 1 + .1 * ul('legend'); if (abd) g *= 1.15;
+  return Math.floor(g);
+}
+function showAbdicate() {
+  openModal(`<h2>👑 Abdiquer ?</h2><p>Vous passez la couronne à un héritier (cousin éloigné, moustache identique). Ce règne s'arrête <b>maintenant</b>.</p>
+  <div class="card vio"><div class="small">Légende gagnée (bonus d'abdication +15 % inclus)</div><div style="font-size:26px;font-weight:900">+${num(legendGain(true))} ★</div>
+  <div class="small">Patrimoine max ${money(G.peakNW)} · ${G.ech} échéance(s) payée(s) · ${G.terr} territoire(s)</div></div>
+  <div class="row" style="margin-top:12px"><button class="btn w" onclick="closeModal()">Continuer mon règne</button><button class="btn v" onclick="doAbdicate()">Abdiquer ★</button></div>`);
+}
+function doAbdicate() { G.gameover = { kind: 'abdicate', title: '👑 Abdication', text: 'Vous remettez le bicorne à votre héritier, avec un chèque et un conseil : « Ne faites confiance à personne, surtout pas à Talleyrand. »' }; closeModal(); showEnd(); }
+let lastGain = 0;
 function showEnd() {
-  const nw = netWorth(), over = G.gameover, win = over && over.win;
-  let best = +lsGet(BEST_KEY) || 0; if ((!over || win) && nw > best) { lsSet(BEST_KEY, Math.round(nw)); best = nw; }
-  lsDel(SAVE_KEY);
-  const h = G.nwHist, mn = Math.min(...h), mx = Math.max(...h, 1);
-  const pts = h.map((v, i) => `${(i / (h.length - 1 || 1) * 300).toFixed(1)},${(78 - (v - mn) / (mx - mn || 1) * 70).toFixed(1)}`).join(' ');
-  const provs = G.prov.filter(Boolean).length;
-  $('#modal').innerHTML = `<div class="ov"><div class="modal"><h2>${over ? over.title : '🏁 Fin du règne'}</h2>
-    <p>${over ? over.text : 'Les 40 trimestres sont écoulés. L\'Histoire retiendra votre nom, ou plutôt votre marque déposée.'}</p>
-    <div class="card" style="margin:10px 0"><div class="small">Patrimoine final</div><div style="font-size:26px;font-weight:900">${money(nw)}</div>
-    <div>Titre : <b>${win ? 'Empereur des Français (et du Conseil d\'Administration)' : rank(Math.max(0, nw))}</b></div>
-    <div>Provinces reconquises : <b>${provs}/8</b> · Difficulté : <b>${DIFF[G.diff].n}</b></div>
-    ${(!over || win) ? `<div class="small">Meilleur score : ${money(Math.max(best, nw))}</div>` : ''}
-    <svg viewBox="0 0 300 80" width="100%" height="80"><polyline fill="none" stroke="#1e40af" stroke-width="2.5" points="${pts}"/></svg></div>
-    <div class="row"><button class="btn big" onclick="startScreen()">Rejouer ↻</button></div></div></div>`;
+  stopAuto();
+  const over = G.gameover, abd = over.kind === 'abdicate';
+  if (!over.done) {
+    over.done = true;
+    lastGain = legendGain(abd);
+    M.legend += lastGain; M.total += lastGain; M.runs++;
+    M.best = Math.max(M.best, G.peakNW); M.bestEch = Math.max(M.bestEch, G.ech); M.bestTurn = Math.max(M.bestTurn, G.turn);
+    saveMeta(); lsDel(SAVE_KEY);
+  }
+  const h = G.nwHist, lg = h.map(v => Math.log10(Math.max(1, v))), mn = Math.min(...lg), mx = Math.max(...lg, 1);
+  const pts = lg.map((v, i) => `${(i / (lg.length - 1 || 1) * 300).toFixed(1)},${(78 - (v - mn) / (mx - mn || 1) * 70).toFixed(1)}`).join(' ');
+  $('#modal').innerHTML = `<div class="ov"><div class="modal"><h2>${over.title}</h2>
+    <p>${over.text}</p>
+    <div class="card vio" style="margin:10px 0"><div class="small">Légende gagnée</div><div style="font-size:28px;font-weight:900">+${num(lastGain)} ★ <span class="small">(total : ${num(M.legend)})</span></div>
+    <div class="small">Trimestres : <b>${G.turn - (abd ? 0 : 1)}</b> · Patrimoine max : <b>${money(G.peakNW)}</b> · Échéances : <b>${G.ech}</b> · Territoires : <b>${G.terr}</b> · Reliques : <b>${G.relics.length}</b></div>
+    <div class="small">Records — patrimoine : ${money(M.best)} · échéances : ${M.bestEch} · trimestres : ${M.bestTurn}</div>
+    <svg viewBox="0 0 300 80" width="100%" height="80"><polyline fill="none" stroke="#6d3fc0" stroke-width="2.5" points="${pts}"/></svg><div class="small" style="text-align:center">Patrimoine (échelle logarithmique)</div></div>
+    <div class="row"><button class="btn v big" onclick="showHeritage('end')">★ Dépenser ma Légende</button><button class="btn big" onclick="launch()">Nouveau règne ↻</button></div></div></div>`;
 }
 
 /* ---------- Modales ---------- */
 const closeModal = () => { $('#modal').innerHTML = ''; };
-const openModal = html => { $('#modal').innerHTML = `<div class="ov" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`; };
-let tutoI = 0;
+const openModal = (html, wide) => { $('#modal').innerHTML = `<div class="ov" onclick="if(event.target===this)closeModal()"><div class="modal ${wide ? 'wide' : ''}">${html}</div></div>`; };
 function showTuto(i = 0) {
-  tutoI = i; const s = TUTO[i];
+  const s = TUTO[i];
   openModal(`<div style="text-align:center"><div class="big-icon">${s.i}</div><h2>${s.t}</h2><p style="text-align:left">${s.x}</p>
   <div class="dots">${TUTO.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
   <div class="row"><button class="btn w" onclick="endTuto()">Passer</button>${i < TUTO.length - 1 ? `<button class="btn" onclick="showTuto(${i + 1})">Suivant ▶</button>` : `<button class="btn g" onclick="endTuto()">C'est parti ! ⚜</button>`}</div></div>`);
 }
-function endTuto() { lsSet(TUTO_KEY, '1'); closeModal(); }
-let pickDiff = 'normal';
+function endTuto() { lsSet(TUTO_KEY, '1'); closeModal(); if (G && G.queue.length) processQueue(); }
 function startScreen() {
   const has = !!lsGet(SAVE_KEY);
   openModal(`<div style="text-align:center"><div class="big-icon">⚜</div><h2>EMPIRE 2736</h2>
-  <p>Un descendant de Napoléon veut racheter la France aux mégacorporations. Gérez votre empire, jouez en Bourse, évitez le Radar.</p></div>
-  ${has ? '<button class="btn big" style="width:100%;margin-bottom:10px" onclick="continueGame()">▶ Continuer la partie</button>' : ''}
-  <b>Nouvelle partie — difficulté :</b>
-  <div class="diff">${Object.entries(DIFF).map(([k, d]) => `<button class="${pickDiff === k ? 'on' : ''}" onclick="pickDiff='${k}';startScreen()"><b>${d.n}</b><span class="small">${d.d}</span></button>`).join('')}</div>
-  <div class="row"><button class="btn w" onclick="showTuto(0)">Voir le tutoriel</button><button class="btn ${has ? 'w' : 'g'} big" onclick="launch()">Jouer ⚜</button></div>`);
+  <p>Un descendant de Napoléon veut racheter le monde aux mégacorporations. Chaque règne finit par tomber : votre <b>Légende</b> vous rend plus fort au suivant. Jeu infini.</p></div>
+  ${M.runs ? `<div class="card vio" style="margin-bottom:10px"><div class="row"><span>★ Légende disponible</span><b>${num(M.legend)}</b></div><div class="small">${M.runs} règne(s) · record ${money(M.best)} · ${M.bestEch} échéance(s)</div></div>` : ''}
+  ${has ? '<button class="btn big" style="width:100%;margin-bottom:10px" onclick="continueGame()">▶ Continuer le règne</button>' : ''}
+  <div class="row"><button class="btn v" onclick="showHeritage('start')">★ Héritage</button><button class="btn w" onclick="showTuto(0)">Tutoriel</button><button class="btn ${has ? 'w' : 'g'} big" onclick="launch()">${has ? 'Nouveau règne' : 'Jouer ⚜'}</button></div>`);
 }
 function continueGame() { if (loadGame()) { closeModal(); render(); } else { toast('Sauvegarde introuvable'); startScreen(); } }
-function launch() { lsDel(SAVE_KEY); newGame(pickDiff); if (!lsGet(TUTO_KEY)) showTuto(0); }
+function launch() {
+  stopAuto(); lsDel(SAVE_KEY); newGame();
+  startRelicChoice('Un nouveau règne commence. Avant de partir, vous choisissez une relique de famille.');
+  if (!lsGet(TUTO_KEY)) showTuto(0); else processQueue();
+}
+let heritageBack = 'menu';
+function showHeritage(back) {
+  heritageBack = back || heritageBack;
+  openModal(`<div class="row"><h2>★ Héritage dynastique</h2><span class="pill vio" style="font-size:15px">${num(M.legend)} ★</span></div>
+  <p class="small">Bonus permanents achetés avec la Légende (gagnée à la fin de chaque règne). Certains effets s'appliquent au prochain règne.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">${UPG.map(x => {
+    const l = ul(x.id), maxed = l >= x.max, c = maxed ? 0 : x.cost(l);
+    return `<div class="card ${maxed ? 'own' : ''}"><h3>${x.icon} ${x.name}</h3><div class="small">Niveau ${l}/${x.max}</div>
+    <div style="margin:4px 0;font-size:13px"><b>Actuel :</b> ${x.d(l)}${!maxed ? `<br><b>Suivant :</b> ${x.d(l + 1)}` : ''}</div>
+    <div class="row">${maxed ? '<span class="pill gold">Maximum</span>' : `<span class="small">Coût : <b>${num(c)} ★</b></span><button class="btn v sm" ${M.legend < c ? 'disabled' : ''} onclick="buyUpg('${x.id}')">Acheter</button>`}</div></div>`;
+  }).join('')}</div>
+  <div class="row" style="margin-top:12px"><span></span>${heritageBack === 'end' ? '<button class="btn big" onclick="launch()">Nouveau règne ↻</button>' : heritageBack === 'start' ? '<button class="btn" onclick="startScreen()">Retour</button>' : '<button class="btn" onclick="closeModal()">Fermer</button>'}</div>`, true);
+}
 function showHelp() {
   openModal(`<h2>❓ Aide</h2>
-  <p><b>But :</b> racheter les 8 provinces de France en 40 trimestres pour le Sacre. Sinon, finir avec le plus gros patrimoine possible.</p>
-  <p><b>Boucle :</b> investir (activités, Bourse, provinces) → <b>Clore le trimestre</b> (Espace) → événement → recommencer.</p>
-  <p><b>Patrimoine :</b> trésor + actions + activités (à 60 %) + provinces (à 70 %) − dette.</p>
-  <p><b>Radar :</b> monte avec les manœuvres douteuses (rumeurs, infos d'initié, rachats…). À 100 → procès. Deux procès → exil, fin de partie. Baisse de 2 par trimestre, et avec l'avocat, le Ministère de la Légitimité ou le décret Code Civil 2.0.</p>
-  <p><b>Gloire :</b> +1 par trimestre, +1 par province. Sert à promulguer des <b>décrets</b> permanents (onglet Décrets). Les missions en donnent aussi.</p>
-  <p><b>Bourse :</b> chaque cours revient vers une valeur « réelle » cachée. Les titres risqués bougent beaucoup. Taxe de 1 % par ordre. Dividendes chaque trimestre. Les actualités donnent des indices (1 sur 5 est fausse).</p>
-  <p><b>Dette :</b> intérêts chaque trimestre. Si votre trésor passe sous zéro, vos actions sont bradées, puis la banque couvre jusqu'au plafond. Au-delà : faillite.</p>
-  <p><b>Raccourcis :</b> <b>Espace</b> = clore le trimestre · <b>1 à 6</b> = onglets.</p>
-  <p class="small">La partie est sauvegardée automatiquement à chaque trimestre.</p>
+  <p><b>Jeu infini :</b> il n'y a pas de fin. Chaque <b>règne</b> s'arrête quand vous tombez (échéance impayée, faillite, exil) ou que vous <b>abdiquez</b> (menu ☰). Vous gagnez alors de la <b>Légende ★</b> à dépenser dans l'<b>Héritage</b> pour recommencer plus fort.</p>
+  <p><b>Activités :</b> chaque niveau coûte 14 % de plus que le précédent. Aux niveaux 10, 25, 50, 100… les revenus de l'activité <b>doublent</b>. Les activités plus chères rapportent plus.</p>
+  <p><b>Échéances :</b> tous les 10 trimestres, le Conseil réclame un tribut de plus en plus lourd (×4, ×6, ×9… jusqu'à ×40 à chaque fois). Impayé = fin du règne. Payé = +3 Gloire et une relique. L'échéance suivante est toujours affichée à gauche.</p>
+  <p><b>Territoires :</b> chaque territoire racheté donne +4 % de revenus global et de la Gloire. Terminer une ère (France, Europe, Monde…) déclenche un Sacre, avec une relique.</p>
+  <p><b>Bourse :</b> chaque cours revient vers une valeur cachée. Vos gros ordres déplacent le cours (profondeur du marché), et la profondeur grandit avec le temps. Taxe 1 %. Dividendes chaque trimestre.</p>
+  <p><b>Radar :</b> monte avec les manœuvres douteuses et certaines activités. À 100 : procès et amende. Deuxième procès : exil, fin du règne. Le casier s'efface après 20 trimestres sans procès.</p>
+  <p><b>Gloire :</b> gagnée chaque trimestre. Elle achète des <b>décrets</b> permanents (pour le règne) et des <b>réformes</b> répétables (+5 % de revenus chacune).</p>
+  <p><b>Vitesse :</b> ▶ Clore (1), ⏩ ×5, ⏭ ×25, ▶ Auto. Ça s'arrête toujours au premier événement. <b>Espace</b> = clore, <b>A</b> = auto, <b>1-6</b> = onglets.</p>
   <div class="row"><button class="btn w" onclick="showTuto(0)">Revoir le tutoriel</button><button class="btn" onclick="closeModal()">Fermer</button></div>`);
 }
 function showMenu() {
   openModal(`<h2>☰ Menu</h2>
-  <button class="opt" onclick="startScreen()">🔄 Nouvelle partie<small>La partie en cours sera abandonnée.</small></button>
+  <button class="opt" onclick="showAbdicate()">👑 Abdiquer<small>Terminer ce règne maintenant et encaisser +${num(legendGain(true))} ★ de Légende.</small></button>
+  <button class="opt" onclick="showHeritage('menu')">★ Héritage<small>Dépenser votre Légende (${num(M.legend)} ★).</small></button>
   <button class="opt" onclick="showHelp()">❓ Aide et règles</button>
   <button class="opt" onclick="showTuto(0)">🎓 Revoir le tutoriel</button>
   <button class="opt" onclick="closeModal()">Fermer</button>`);
 }
 function showMissions() {
   const done = MIS.filter(m => G.mis[m.id]).length;
-  openModal(`<h2>🎯 Missions <span class="pill blue">${done}/${MIS.length}</span></h2><p class="small">Elles servent de guide et rapportent des ⚜ et de la Gloire.</p>
-  ${MIS.map(m => { const rw = [m.r.cash ? money(m.r.cash) : '', m.r.glory ? m.r.glory + ' Gloire' : ''].filter(Boolean).join(' + '); return `<div class="mis ${G.mis[m.id] ? 'done' : ''}"><span class="ck">${G.mis[m.id] ? '✅' : '⬜'}</span><div>${m.t}<div class="small">Récompense : ${rw}</div></div></div>`; }).join('')}
+  openModal(`<h2>🎯 Missions <span class="pill blue">${done}/${MIS.length}</span></h2><p class="small">Elles guident le début de chaque règne et rapportent des ⚜ et de la Gloire.</p>
+  ${MIS.map(m => `<div class="mis ${G.mis[m.id] ? 'done' : ''}"><span class="ck">${G.mis[m.id] ? '✅' : '⬜'}</span><div>${m.t}<div class="small">Récompense : ${missionReward(m)}</div></div></div>`).join('')}
   <div class="row" style="margin-top:12px"><span></span><button class="btn" onclick="closeModal()">Fermer</button></div>`);
 }
 
 /* ---------- Rendu ---------- */
-function spark(h, w = 110, hh = 34) {
+function spark(h, w = 110, hh = 34, col) {
   const mn = Math.min(...h), mx = Math.max(...h);
   const pts = h.map((v, i) => `${(i / (h.length - 1 || 1) * w).toFixed(1)},${(hh - 3 - (v - mn) / (mx - mn || 1) * (hh - 6)).toFixed(1)}`).join(' ');
   const up = h[h.length - 1] >= h[0];
-  return `<svg viewBox="0 0 ${w} ${hh}" width="${w}" height="${hh}"><polyline fill="none" stroke="${up ? '#16825a' : '#d2323c'}" stroke-width="2.4" stroke-linejoin="round" points="${pts}"/></svg>`;
+  return `<svg viewBox="0 0 ${w} ${hh}" width="${w}" height="${hh}"><polyline fill="none" stroke="${col || (up ? '#16825a' : '#d2323c')}" stroke-width="2.4" stroke-linejoin="round" points="${pts}"/></svg>`;
 }
 function advice() {
   const n = totalLevels();
-  if (n === 0) return { t: 'Commencez par fonder une activité : onglet Corporation. Les Mines de Lithium sont le meilleur départ.', tab: 'empire', b: 'Corporation' };
+  const tl = echTurn() - G.turn, dem = echDemand();
+  if (n === 0) return { t: 'Commencez par acheter des niveaux de Mines de Lithium : onglet Corporation. Tout va vite au début, réinvestissez tout.', tab: 'empire', b: 'Corporation' };
+  if (tl <= 2 && G.cash + stockValue() * .95 < dem) return { t: `L'échéance de ${money(dem)} tombe dans ${tl + 1} trimestre(s) et votre réserve est insuffisante. Gardez du trésor ou vendez des actions !`, tab: 'banque', b: 'Banque' };
   if (!G.stocks.some(s => s.held) && G.cash >= 800 && G.turn <= 8) return { t: 'Votre argent dort. La Bourse verse des dividendes. Pour débuter, Café-Corp (CAFE) est le titre le plus stable.', tab: 'bourse', b: 'Bourse' };
   if (G.heat >= 80) return { t: `Radar à ${Math.round(G.heat)}/100 : un procès est imminent. Passez chez Talleyrand ou calmez les manœuvres.`, tab: 'banque', b: 'Banque' };
-  if (G.debt > 0 && G.cash > G.debt + 1500) return { t: 'Vous pouvez rembourser votre dette : les intérêts vous rongent.', tab: 'banque', b: 'Banque' };
-  const up = BIZ.map((d, i) => ({ i, c: bizCost(i), g: G.biz[i].level < 5 ? bizIncome(G.biz[i], G.biz[i].level + 1) - (G.biz[i].level ? bizIncome(G.biz[i]) : 0) : 0 })).filter(x => x.g > 0 && x.c <= G.cash).sort((a, b) => b.g / b.c - a.g / a.c)[0];
-  if (up) return { t: `Vous pouvez ${G.biz[up.i].level ? 'améliorer' : 'construire'} « ${BIZ[up.i].name} » pour ${money(up.c)} (+${money(up.g)}/trim.).`, tab: 'empire', b: 'Corporation' };
+  if (G.debt > 0 && G.cash > G.debt * 2 + dem) return { t: 'Vous pouvez rembourser votre dette : les intérêts vous rongent.', tab: 'banque', b: 'Banque' };
+  const up = BIZ_PROD.filter(i => unlocked(i) && bizUnit(i) <= G.cash).map(i => { const L = G.biz[i].level; return { i, c: bizUnit(i), g: bizIncomeAt(i, L + 1) - (L ? bizIncomeAt(i, L) : 0) }; }).sort((a, b) => b.g / b.c - a.g / a.c)[0];
+  if (up && up.c < G.cash * .9) return { t: `Meilleur investissement : « ${BIZ[up.i].name} » (${money(up.c)}, +${money(up.g)}/trim. par niveau).`, tab: 'empire', b: 'Corporation' };
   const d = DEC.find(x => !G.dec[x.id] && x.cost <= G.glory);
   if (d) return { t: `Vous avez assez de Gloire pour le décret « ${d.name} ».`, tab: 'decrets', b: 'Décrets' };
-  const pi = PROV.findIndex((p, i) => !G.prov[i] && p.cost <= G.cash);
-  if (pi >= 0) return { t: `Vous pouvez racheter ${PROV[pi].name} (${money(PROV[pi].cost)}) : c'est votre objectif final.`, tab: 'conq', b: 'Reconquête' };
+  if (G.glory >= reformCost()) return { t: `Vous pouvez promulguer une réforme (+5 % de revenus) pour ${reformCost()} Gloire.`, tab: 'decrets', b: 'Décrets' };
+  if (terrCost(G.terr) <= G.cash - (tl <= 2 ? dem : 0)) return { t: `Vous pouvez racheter ${terrName(G.terr)} (${money(terrCost(G.terr))}) : +4 % de revenus global.`, tab: 'conq', b: 'Territoires' };
+  const h = G.nwHist, k = h.length - 9;
+  if (G.turn > 25 && k >= 0 && h[h.length - 1] < h[k] * 1.12) return { t: `Votre empire stagne. Abdiquer rapporterait +${num(legendGain(true))} ★ à investir dans l'Héritage.`, tab: null, b: 'Abdiquer', fn: 'showAbdicate()' };
   const m = curMission();
   if (m) return { t: `Mission en cours : ${m.t}.`, tab: null, b: 'Missions', fn: 'showMissions()' };
-  return { t: 'Rien d\'urgent. Quand vous êtes prêt, clôturez le trimestre (Espace).', tab: null };
+  return { t: 'Rien d\'urgent. Avancez avec ⏩ ×5 quand vous êtes prêt.', tab: null };
 }
 function render() {
   if (!G) return;
   checkMissions();
-  const nw = netWorth(), prov = G.prov.filter(Boolean).length;
+  const nw = netWorth();
   const dnw = G.report && G.report.nw1 !== undefined ? G.report.nw1 - G.report.nw0 : null;
   const zone = G.heat < 40 ? ['Discret', 'green'] : G.heat < 70 ? ['Observé', 'gold'] : G.heat < 90 ? ['Surveillé', 'red'] : ['Procès imminent', 'red'];
   const hc = G.heat < 40 ? 'var(--green)' : G.heat < 70 ? 'var(--gold)' : 'var(--red)';
-  $('#progtxt').textContent = `Trimestre ${Math.min(G.turn, MAX)} / ${MAX}`;
-  $('#progprov').textContent = `🇫🇷 ${prov}/8 provinces`;
-  $('#progbar').style.width = (Math.min(G.turn - 1, MAX) / MAX * 100) + '%';
-  const cm = curMission();
-  const r = G.report;
+  const tl = echTurn() - G.turn, dem = echDemand();
+  const prevT = 10 * G.ech, span = echTurn() - prevT;
+  $('#progtxt').textContent = `Trimestre ${G.turn}`;
+  $('#progech').textContent = `⏳ Échéance n°${G.ech + 1} dans ${tl} trim.`;
+  $('#progbar').style.width = (100 * (G.turn - prevT) / span) + '%';
+  $('#hbtn').textContent = `★ Héritage (${num(M.legend)})`;
+  const cm = curMission(), r = G.report;
+  const ready = G.cash + stockValue() * .95;
   $('#side').innerHTML = `
   <div class="card"><div class="tiles">
     <div class="tile"><b>Trésor</b><span class="${G.cash < 0 ? 'neg' : ''}">${num(G.cash)} ⚜</span></div>
     <div class="tile"><b>Dette</b><span class="${G.debt ? 'neg' : ''}">${num(G.debt)}</span><small>${(rate() * 100).toFixed(1)} %/trim.</small></div>
-    <div class="tile wide"><b>Patrimoine</b><span class="${nw < 0 ? 'neg' : ''}">${num(nw)} ⚜</span>${dnw !== null ? `<small class="${dnw >= 0 ? 'pos' : 'neg'}">${sgn(dnw)} ce trimestre</small>` : ''}${spark(G.nwHist, 250, 30)}</div>
-    <div class="tile wide" title="À 100 : procès. Deux procès : exil.">
-      <b>📡 Radar du Conseil · casier ${G.strikes}/2</b>
+    <div class="tile wide"><b>Patrimoine</b><span>${num(nw)} ⚜</span>${dnw !== null ? `<small class="${dnw >= 0 ? 'pos' : 'neg'}">${sgn(dnw)} ce trimestre</small>` : ''}${spark(G.nwHist.map(v => Math.log10(Math.max(1, v))), 250, 30, '#1e40af')}</div>
+    <div class="tile wide" title="À 100 : procès. Deux procès : exil."><b>📡 Radar du Conseil · casier ${G.strikes}/2</b>
       <div class="row"><span>${Math.round(G.heat)}/100</span><span class="pill ${zone[1]}">${zone[0]}</span></div>
       <div class="bar" style="margin-top:4px"><i style="width:${Math.min(100, G.heat)}%;background:${hc}"></i></div></div>
-    <div class="tile"><b>⚜ Gloire</b><span>${G.glory}</span></div>
-    <div class="tile"><b>Pots-de-vin</b><span>${'●'.repeat(G.infl)}<span style="opacity:.25">${'●'.repeat(Math.max(0, inflMax() - G.infl))}</span></span></div>
+    <div class="tile"><b>⚜ Gloire</b><span>${num(G.glory)}</span><small>+${gloryPerTurn()}/trim.</small></div>
+    <div class="tile"><b>Pots-de-vin</b><span>${G.infl}/${inflMax()}</span></div>
   </div></div>
+  <div class="card ${ready < dem && tl <= 3 ? '' : ''}" style="${ready < dem && tl <= 2 ? 'border-color:var(--red);box-shadow:4px 4px 0 var(--red)' : ''}"><h3>⏳ Échéance n°${G.ech + 1}</h3>
+    <div class="row small"><span>Tribut</span><b>${money(dem)}</b></div><div class="row small"><span>Dans</span><b>${tl} trimestre(s)</b></div>
+    <div class="bar" style="margin-top:4px"><i style="width:${Math.min(100, 100 * Math.max(0, ready) / dem)}%;background:${ready >= dem ? 'var(--green)' : 'var(--gold)'}"></i></div>
+    <div class="small">${ready >= dem ? 'Réserve suffisante (trésor + titres).' : `Il manque ${money(dem - ready)} de réserve.`}</div></div>
+  ${G.relics.length ? `<div class="card vio"><h3>🎁 Reliques</h3>${G.relics.map(id => { const x = RELICS.find(y => y.id === id); return `<span class="rel" title="${x.d}">${x.icon} ${x.name}</span>`; }).join('')}</div>` : ''}
+  <div class="card vio" style="cursor:pointer" onclick="showAbdicate()" title="Terminer ce règne et encaisser la Légende"><div class="row"><b>★ Légende si fin maintenant</b><b>+${num(legendGain(true))}</b></div><div class="small">Cliquez pour abdiquer.</div></div>
   ${r ? `<div class="card"><h3>Dernier trimestre (T${r.turn})</h3>
     <div class="row small"><span>Recettes</span><b class="pos">${sgn(r.income)}</b></div>
     <div class="row small"><span>Charges &amp; intérêts</span><b class="neg">−${num(r.charges)}</b></div>
     <div class="row small"><span>Dividendes</span><b class="pos">${sgn(r.divs)}</b></div>
     ${r.best ? `<div class="row small"><span>Meilleur titre</span><b>${r.best.id} <span class="pos">${pct(r.best.ch)}</span></b></div><div class="row small"><span>Pire titre</span><b>${r.worst.id} <span class="neg">${pct(r.worst.ch)}</span></b></div>` : ''}</div>` : ''}
-  ${cm ? `<div class="card" style="cursor:pointer" onclick="showMissions()"><h3>🎯 Mission</h3><div>${cm.t}</div><div class="small">Récompense : ${[cm.r.cash ? money(cm.r.cash) : '', cm.r.glory ? cm.r.glory + ' Gloire' : ''].filter(Boolean).join(' + ')}</div></div>` : ''}`;
+  ${cm ? `<div class="card" style="cursor:pointer" onclick="showMissions()"><h3>🎯 Mission</h3><div>${cm.t}</div><div class="small">Récompense : ${missionReward(cm)}</div></div>` : ''}`;
 
   const a = advice();
   $('#advisor').innerHTML = a ? `<div class="advisor"><span class="av">🎩</span><div><b>Conseiller Talleyrand :</b> ${a.t}</div>${a.b && (a.tab || a.fn) ? `<button class="btn w sm" onclick="${a.tab ? `setTab('${a.tab}')` : a.fn}">${a.b} ▶</button>` : ''}</div>` : '';
   $('#news').innerHTML = `<div class="news"><h4>📡 L'Imperial Feed™ — actualités sponsorisées</h4>${G.heads.map(h => `<p>« ${h.t} »</p>`).join('')}<div class="small">1 rumeur sur 5 est fausse. Comme les autres informations.</div></div>`;
-  const decOk = DEC.some(d => !G.dec[d.id] && d.cost <= G.glory), provOk = PROV.some((p, i) => !G.prov[i] && p.cost <= G.cash);
-  const tabs = [['empire', '🏭 Corporation'], ['conq', '🇫🇷 Reconquête', provOk], ['bourse', '📈 Bourse'], ['decrets', '📜 Décrets', decOk], ['banque', '🏦 Banque'], ['journal', '📒 Journal']];
+  const decOk = DEC.some(d => !G.dec[d.id] && d.cost <= G.glory) || G.glory >= reformCost();
+  const tabs = [['empire', '🏭 Corporation'], ['conq', '🏴 Territoires', terrCost(G.terr) <= G.cash], ['bourse', '📈 Bourse'], ['decrets', '📜 Décrets', decOk], ['banque', '🏦 Banque'], ['journal', '📒 Journal']];
   $('#tabs').innerHTML = tabs.map(([k, n, dot], i) => `<button class="tab ${G.tab === k ? 'on' : ''}" onclick="setTab('${k}')" title="Raccourci : ${i + 1}">${n}${dot ? '<span class="dot"></span>' : ''}</button>`).join('');
   $('#panel').innerHTML = { empire: pEmpire, conq: pConq, bourse: pBourse, decrets: pDecrets, banque: pBanque, journal: pJournal }[G.tab]();
   const en = expNet();
-  $('#gohint').innerHTML = `Revenu net attendu : <b class="${en >= 0 ? 'pos' : 'neg'}">${sgn(en)} ⚜</b> / trimestre`;
-  $('#endbtn').disabled = G.turn > MAX || !!G.gameover || G.queue.length > 0;
+  $('#gohint').innerHTML = `Revenu net : <b class="${en >= 0 ? 'pos' : 'neg'}">${sgn(en)} ⚜</b>/trim.`;
+  const dis = !!G.gameover || G.queue.length > 0;
+  ['b1', 'b5', 'b25'].forEach(id => { $('#' + id).disabled = dis; });
+  const ba = $('#bauto'); ba.textContent = autoTimer ? '⏸ Pause' : '▶ Auto'; ba.className = 'btn big ' + (autoTimer ? 'on' : 'w');
+  if (G.queue.length && !$('#modal').innerHTML) showEvent(G.queue[0]);
 }
 function pEmpire() {
+  const qtys = [1, 10, 100, 'max'];
+  const head = `<div class="card" style="margin-bottom:12px"><div class="row"><div><h3>🏭 Corporation</h3><div class="small">Chaque niveau coûte +${Math.round((GROW - 1) * 100)} %. Revenus ×2 aux niveaux ${MS.slice(0, 5).join(', ')}…</div></div>
+    <div><span class="small">Acheter :</span><div class="seg" style="margin:2px 0">${qtys.map(q => `<button class="p ${G.bq === q ? 'on' : ''}" onclick="setBq(${typeof q === 'string' ? `'${q}'` : q})">${q === 'max' ? 'Max' : '× ' + q}</button>`).join('')}</div></div></div>
+    ${ul('auto') >= 1 ? `<div class="seg"><button class="btn sm ${G.auto.biz ? 'on' : 'w'}" onclick="toggleAutoOpt('biz')">🤖 Intendant : ${G.auto.biz ? 'ON' : 'OFF'}</button>${ul('auto') >= 2 ? `<button class="btn sm ${G.auto.dec ? 'on' : 'w'}" onclick="toggleAutoOpt('dec')">🤖 Chambellan : ${G.auto.dec ? 'ON' : 'OFF'}</button>` : ''}<span class="small">Achats automatiques à chaque trimestre.</span></div>` : ''}</div>`;
+  let lockedShown = 0;
   const cards = BIZ.map((d, i) => {
-    const b = G.biz[i], c = bizCost(i), isDeal = G.deal && G.deal.i === i && b.level < 5;
-    const now = b.level ? bizIncome(b) : 0, next = b.level < 5 ? bizIncome(b, b.level + 1) : now;
+    const b = G.biz[i];
+    if (!unlocked(i)) { if (lockedShown++) return ''; return `<div class="card lock"><h3>🔒 ${d.name}</h3><div class="sub">Rang ${BIZ_PROD.indexOf(i) + 1} · débloqué par l'Héritage « Nouveaux horizons » niveau ${d.unlock - 0}. Il existe d'autres rangs au-delà…</div></div>`; }
+    const isDeal = G.deal && G.deal.i === i;
+    let n = G.bq === 'max' ? bizMaxN(i) : G.bq; if (n <= 0) n = 1;
+    const c = bizCostN(i, n), can = c <= G.cash;
+    if (d.util) {
+      return `<div class="card"><h3>${d.icon} ${d.name}</h3><div class="sub">${d.flav}</div>
+      <div class="row"><div>Niveau <b>${b.level}</b> ${isDeal ? '' : ''}</div><div class="small">Radar −${legitReduce().toFixed(1)}/trim. → −${(3 * Math.sqrt(b.level + n)).toFixed(1)}</div></div>
+      <div class="row" style="margin-top:8px"><div class="small">+${n} niveau(x) : <b>${money(c)}</b>${missing(c)}</div><button class="btn" ${can ? '' : 'disabled'} onclick="buyBiz(${i})">Améliorer ×${n}</button></div></div>`;
+    }
+    const now = b.level ? bizIncome(i) : 0, nxt = bizIncomeAt(i, b.level + n);
+    const nm = MS.find(m => m > b.level);
     return `<div class="card ${b.level ? '' : ''}"><div class="row"><h3>${d.icon} ${d.name}</h3></div><div class="sub">${d.flav}</div>
-      <div class="row"><div>Niveau <b>${b.level}</b>/5 ${b.down ? `<span class="pill red">à l'arrêt ${b.down}t</span>` : ''} ${isDeal ? '<span class="pill gold">−25 % ce trimestre</span>' : ''}</div><div class="small">${b.level ? 'Rapporte ≈ ' + money(now) + '/trim.' : 'Non construit'}</div></div>
-      <div class="row" style="margin-top:8px"><div class="small">${b.level >= 5 ? 'Niveau maximum' : `${b.level ? 'Amélioration' : 'Construction'} : <b>${money(c)}</b><br>Gain : +${money(next - now)}/trim.`}${b.level < 5 ? missing(c) : ''}</div>
-      <button class="btn" ${b.level >= 5 || c > G.cash ? 'disabled' : ''} onclick="buyBiz(${i})">${b.level ? 'Améliorer' : 'Construire'}</button></div></div>`;
+      <div class="row"><div>Niveau <b>${b.level}</b> ${b.down ? `<span class="pill red">à l'arrêt ${b.down}t</span>` : ''} ${isDeal ? `<span class="pill gold">−${Math.round(G.deal.disc * 100)} % ce trim.</span>` : ''}</div><div class="small">${b.level ? 'Rapporte ≈ ' + money(now) + '/trim.' : 'Non construit'}</div></div>
+      <div class="small">Prochain palier ×2 : niveau <b>${nm}</b></div>
+      <div class="row" style="margin-top:8px"><div class="small">${b.level ? 'Amélioration' : 'Construction'} ×${n} : <b>${money(c)}</b><br>Gain : <b class="pos">+${money(nxt - now)}</b>/trim.${missing(c)}</div>
+      <button class="btn" ${can ? '' : 'disabled'} onclick="buyBiz(${i})">${b.level ? 'Améliorer' : 'Construire'} ×${n}</button></div></div>`;
   }).join('');
-  return `<div class="grid">${cards}</div>
+  return `${head}<div class="grid">${cards}</div>
   <div class="grid" style="margin-top:12px">
-    <div class="card"><h3>👥 Politique sociale</h3><div class="sub">Affecte vos recettes, les grèves et le Radar.</div><div class="seg">${WAGE.map((w, i) => `<button class="p ${G.wage === i ? 'on' : ''}" onclick="setWage(${i})">${w.n}</button>`).join('')}</div><div class="small">${WAGE[G.wage].d}</div></div>
-    <div class="card"><h3>🦺 Sécurité industrielle</h3><div class="sub">Réduit le risque de surchauffe (mines, drones, nano-brume).</div><div class="seg">${SAFE.map((w, i) => `<button class="p ${G.safety === i ? 'on' : ''}" onclick="setSafe(${i})">${w.n}</button>`).join('')}</div><div class="small">${SAFE[G.safety].d}</div></div>
+    <div class="card"><h3>👥 Politique sociale</h3><div class="sub">Affecte vos revenus, les grèves et le Radar.</div><div class="seg">${WAGE.map((w, i) => `<button class="p ${G.wage === i ? 'on' : ''}" onclick="setWage(${i})">${w.n}</button>`).join('')}</div><div class="small">${WAGE[G.wage].d}</div></div>
+    <div class="card"><h3>🦺 Sécurité industrielle</h3><div class="sub">Réduit le risque de surchauffe (mines, drones, nano-brume, fusion).</div><div class="seg">${SAFE.map((w, i) => `<button class="p ${G.safety === i ? 'on' : ''}" onclick="setSafe(${i})">${w.n}</button>`).join('')}</div><div class="small">${SAFE[G.safety].d}</div></div>
   </div>`;
 }
 function pConq() {
-  const prov = G.prov.filter(Boolean).length;
-  return `<div class="card" style="margin-bottom:12px"><div class="row"><h3>🇫🇷 Reconquête de la France</h3><b>${prov}/8</b></div><div class="bar"><i style="width:${prov / 8 * 100}%;background:var(--gold)"></i></div>
-  <div class="small" style="margin-top:6px">Rachetez les 8 provinces pour le <b>Sacre</b> (victoire). Chaque rachat rapporte un revenu fixe, +1 Gloire par trimestre, mais fait monter le Radar de 8.</div></div>
-  <div class="grid">` + PROV.map((p, i) => {
-    const o = G.prov[i];
-    return `<div class="card ${o ? 'own' : ''}"><h3>${o ? '⚜ ' : ''}${p.name}</h3><div class="sub">${p.flav}</div>
-    <div class="row"><div class="small">Rapporte <b>${money(p.inc)}</b>/trim.${!o ? `<br>Prix : <b>${money(p.cost)}</b>${missing(p.cost)}` : ''}</div>${o ? '<span class="pill gold">Reconquise</span>' : `<button class="btn g" ${p.cost > G.cash ? 'disabled' : ''} onclick="buyProv(${i})">Racheter</button>`}</div></div>`;
-  }).join('') + '</div>';
+  const k = eraOf(G.terr), end = eraEnd(G.terr), start = k === 0 ? 0 : ERA_END[k - 1] || (end - 20);
+  let list = '';
+  for (let j = 0; j < 6; j++) {
+    const n = G.terr + j, c = terrCost(n), era = Math.min(eraOf(n), TERR_FLAV.length - 1), first = j === 0;
+    list += `<div class="card ${first ? '' : 'lock'}"><h3>🏴 ${terrName(n)}</h3><div class="sub">${TERR_FLAV[era]}</div>
+    <div class="row"><div class="small">+4 % de revenus, +½ Gloire/trim.<br>Prix : <b>${money(c)}</b>${first ? missing(c) : ''}</div>${first ? `<button class="btn g" ${c > G.cash ? 'disabled' : ''} onclick="buyTerr()">Racheter</button>` : '<span class="pill">à venir</span>'}</div></div>`;
+  }
+  return `<div class="card" style="margin-bottom:12px"><div class="row"><h3>🏴 Territoires — ${ERA_NAMES[Math.min(k, ERA_NAMES.length - 1)]}</h3><b>${G.terr} rachetés</b></div>
+  <div class="bar"><i style="width:${Math.min(100, 100 * (G.terr - start) / Math.max(1, end - start))}%;background:var(--gold)"></i></div>
+  <div class="small" style="margin-top:6px">Prochain Sacre à <b>${end}</b> territoires (relique + Gloire). Bonus de revenus actuel : <b>+${Math.round((terrBonus() - 1) * 100)} %</b>. ${rel('statue') ? '' : 'Chaque rachat fait monter le Radar de 6.'}</div>
+  <div class="seg"><button class="btn g sm" onclick="buyAllTerr()" ${terrCost(G.terr) > G.cash ? 'disabled' : ''}>Tout racheter (max abordable)</button></div></div>
+  <div class="grid">${list}</div>`;
 }
 function pBourse() {
   const val = stockValue(), inv = G.stocks.reduce((a, s) => a + s.held * s.cost, 0);
-  const qtys = [1, 10, 100, 'max'];
+  const qtys = [1, 10, 100, 1000, 'max'];
   return `<div class="card" style="margin-bottom:12px"><div class="row"><div><h3>💼 Mon portefeuille</h3><div class="small">Valeur ${money(val)}${inv ? ` · gain latent <b class="${val >= inv ? 'pos' : 'neg'}">${sgn(val - inv)} ⚜</b>` : ''}</div></div>
-  <div><span class="small">Quantité par ordre :</span><div class="seg" style="margin:2px 0">${qtys.map(q => `<button class="p ${G.qty === q ? 'on' : ''}" onclick="setQty(${typeof q === 'string' ? `'${q}'` : q})">${q === 'max' ? 'Max' : '× ' + q}</button>`).join('')}</div></div></div>
-  <div class="small">Taxe de 1 % par ordre. Les cours reviennent vers une valeur cachée : acheter après une chute est souvent payant. Risque ≠ rendement garanti.</div></div>
+  <div><span class="small">Quantité par ordre :</span><div class="seg" style="margin:2px 0">${qtys.map(q => `<button class="p ${G.qty === q ? 'on' : ''}" onclick="setQty(${typeof q === 'string' ? `'${q}'` : q})">${q === 'max' ? 'Max' : '× ' + num(q)}</button>`).join('')}</div></div></div>
+  <div class="small">Taxe de 1 %. <b>Vos gros ordres déplacent le cours</b> (impact indiqué sur chaque carte) : fractionnez-les. La profondeur du marché grandit avec le temps. Les cours reviennent vers une valeur cachée.</div></div>
   <div class="grid">` + G.stocks.map((s, i) => {
     const d = STK[i], prev = s.hist.length > 1 ? s.hist[s.hist.length - 2] : s.price, ch = s.price / prev - 1;
     const t = G.tips[s.id];
     const tipTxt = t === undefined ? '' : `<span class="pill gold">Initié : ${Math.abs(t) < .001 ? 'rien de prévu' : pct(t) + ' attendu'}</span>`;
     const pnl = s.held ? (s.price / s.cost - 1) : 0;
     const rk = { 'faible': 'green', 'moyen': 'blue', 'élevé': 'gold', 'très élevé': 'red' }[d.risk];
+    const dep = stockDepth(s.id), nq = G.qty === 'max' ? maxBuy(s.id) : G.qty, imp = Math.min(nq * s.price / dep, 3) * .5;
     return `<div class="card"><div class="row"><div><h3>${d.id} <span class="pill ${rk}">risque ${d.risk}</span></h3><div class="sub">${d.name} · ${d.desc}</div></div>${spark(s.hist)}</div>
-      <div class="row"><div style="font-size:22px;font-weight:800">${s.price.toFixed(2)} <span class="${ch >= 0 ? 'pos' : 'neg'}" style="font-size:14px">${pct(ch)}</span></div><div class="small">Dividende ${(d.div * 100).toFixed(1)} %/trim.</div></div>
-      <div class="small" style="margin:4px 0">Détenu : <b>${s.held}</b>${s.held ? ` · PRU ${s.cost.toFixed(2)} · <b class="${pnl >= 0 ? 'pos' : 'neg'}">${pct(pnl)}</b>` : ''} ${tipTxt}</div>
-      <div class="row"><button class="btn" onclick="buy('${s.id}')">Acheter ${G.qty === 'max' ? 'max' : '× ' + G.qty}</button><button class="btn w" ${s.held ? '' : 'disabled'} onclick="sell('${s.id}')">Vendre ${G.qty === 'max' ? 'tout' : '× ' + G.qty}</button>
+      <div class="row"><div style="font-size:22px;font-weight:800">${s.price.toFixed(2)} <span class="${ch >= 0 ? 'pos' : 'neg'}" style="font-size:14px">${pct(ch)}</span></div><div class="small">Dividende ${(d.div * 100 * divMult()).toFixed(1)} %/trim.</div></div>
+      <div class="small" style="margin:4px 0">Détenu : <b>${num(s.held)}</b>${s.held ? ` · PRU ${s.cost.toFixed(2)} · <b class="${pnl >= 0 ? 'pos' : 'neg'}">${pct(pnl)}</b>` : ''} ${tipTxt}</div>
+      <div class="small">Profondeur : ${money(dep)} · impact de l'ordre : <b class="${imp > .05 ? 'neg' : ''}">±${(imp * 100).toFixed(1)} %</b></div>
+      <div class="row" style="margin-top:6px"><button class="btn" onclick="buy('${s.id}')">Acheter ${G.qty === 'max' ? 'max' : '× ' + num(G.qty)}</button><button class="btn w" ${s.held ? '' : 'disabled'} onclick="sell('${s.id}')">Vendre ${G.qty === 'max' ? 'tout' : '× ' + num(G.qty)}</button>
       <button class="btn w sm" onclick="toggleMan('${s.id}')">${G.man[s.id] ? '▲' : '▼'} Manœuvres</button></div>
-      ${G.man[s.id] ? `<div style="margin-top:8px;padding-top:8px;border-top:2px dashed var(--ink)"><div class="small">Coûtent un pot-de-vin et augmentent le Radar. Les rumeurs influencent le cours du trimestre prochain.</div><div class="seg"><button class="btn r sm" onclick="rumor('${s.id}',1)">Rumeur flatteuse ↑ · ${rumorCost()}</button><button class="btn r sm" onclick="rumor('${s.id}',-1)">Calomnie ↓ · ${rumorCost()}</button><button class="btn w sm" onclick="tip('${s.id}')">Info d'initié · ${tipCost()}</button></div></div>` : ''}</div>`;
+      ${G.man[s.id] ? `<div style="margin-top:8px;padding-top:8px;border-top:2px dashed var(--ink)"><div class="small">Coûtent un pot-de-vin et augmentent le Radar. Les rumeurs influencent le cours du trimestre prochain.</div><div class="seg"><button class="btn r sm" onclick="rumor('${s.id}',1)">Rumeur flatteuse ↑ · ${num(rumorCost())}</button><button class="btn r sm" onclick="rumor('${s.id}',-1)">Calomnie ↓ · ${num(rumorCost())}</button><button class="btn w sm" onclick="tip('${s.id}')">Info d'initié · ${num(tipCost())}</button></div></div>` : ''}</div>`;
   }).join('') + '</div>';
 }
 function pDecrets() {
-  return `<div class="card" style="margin-bottom:12px"><div class="row"><h3>📜 Décrets impériaux</h3><span class="pill gold">⚜ Gloire : ${G.glory}</span></div><div class="small">Des bonus permanents, achetés avec la Gloire. Elle vient de chaque trimestre (+1), de vos provinces (+1 chacune) et des missions.</div></div>
-  <div class="grid">${DEC.map(d => { const o = G.dec[d.id]; return `<div class="card ${o ? 'own' : ''}"><h3>${d.icon} ${d.name}</h3><div class="sub">${d.d}</div><div class="row"><span class="small">Coût : <b>${d.cost} Gloire</b>${!o && G.glory < d.cost ? `<div class="need">Il manque ${d.cost - G.glory} Gloire</div>` : ''}</span>${o ? '<span class="pill gold">En vigueur</span>' : `<button class="btn g" ${G.glory < d.cost ? 'disabled' : ''} onclick="buyDec('${d.id}')">Promulguer</button>`}</div></div>`; }).join('')}</div>`;
+  const rc = reformCost();
+  return `<div class="card" style="margin-bottom:12px"><div class="row"><h3>📜 Décrets &amp; réformes</h3><span class="pill gold">⚜ Gloire : ${num(G.glory)}</span></div><div class="small">Des bonus pour ce règne, achetés avec la Gloire (+${gloryPerTurn()}/trimestre, plus les missions, échéances et Sacres).</div></div>
+  <div class="grid">${DEC.map(d => { const o = G.dec[d.id]; return `<div class="card ${o ? 'own' : ''}"><h3>${d.icon} ${d.name}</h3><div class="sub">${d.d}</div><div class="row"><span class="small">Coût : <b>${d.cost} Gloire</b>${!o && G.glory < d.cost ? `<div class="need">Il manque ${d.cost - G.glory} Gloire</div>` : ''}</span>${o ? '<span class="pill gold">En vigueur</span>' : `<button class="btn g" ${G.glory < d.cost ? 'disabled' : ''} onclick="buyDec('${d.id}')">Promulguer</button>`}</div></div>`; }).join('')}
+  <div class="card vio"><h3>📣 Réforme de propagande</h3><div class="sub">Répétable à l'infini. Chaque réforme : revenus +5 % (actuellement ${G.refs} → +${G.refs * 5} %).</div><div class="row"><span class="small">Coût : <b>${num(rc)} Gloire</b>${G.glory < rc ? `<div class="need">Il manque ${num(rc - G.glory)} Gloire</div>` : ''}</span><button class="btn v" ${G.glory < rc ? 'disabled' : ''} onclick="buyReform()">Promulguer</button></div></div></div>`;
 }
 function pBanque() {
-  const lim = borrowLimit();
+  const lim = borrowLimit(), dem = echDemand(), tl = echTurn() - G.turn;
   return `<div class="grid">
    <div class="card"><h3>🏦 Banque Universelle des Dettes Perpétuelles</h3><div class="sub">« Nous prêtons aux riches, et aux autres quand ils deviennent riches. »</div>
     <div class="row"><span>Dette</span><b class="${G.debt ? 'neg' : ''}">${money(G.debt)}</b></div>
     <div class="row"><span>Plafond autorisé</span><b>${money(lim)}</b></div>
     <div class="row"><span>Taux</span><b>${(rate() * 100).toFixed(1)} % / trimestre${G.rateT ? ` (encore ${G.rateT}t)` : ''}</b></div>
-    <div class="seg"><button class="btn sm" onclick="borrow(1000)">Emprunter 1 000</button><button class="btn sm" onclick="borrow(5000)">5 000</button><button class="btn w sm" onclick="repay(1000)">Rembourser 1 000</button><button class="btn w sm" onclick="repay('all')">Tout</button></div>
-    <div class="small">Emprunter permet d'investir plus tôt, mais les intérêts tombent même en mauvais trimestre. Si votre trésor passe sous zéro : actions bradées, puis découvert, puis faillite.</div></div>
+    <div class="seg"><button class="btn sm" onclick="borrow(.25)">Emprunter 25 %</button><button class="btn sm" onclick="borrow('max')">Max</button><button class="btn w sm" onclick="repay(.5)">Rembourser 50 %</button><button class="btn w sm" onclick="repay('all')">Tout</button></div>
+    <div class="small">Emprunter accélère le début de partie, mais les intérêts tombent même en mauvais trimestre. Si votre trésor passe sous zéro : actions bradées, puis découvert, puis faillite.</div></div>
+   <div class="card"><h3>⏳ Échéance n°${G.ech + 1}</h3><div class="sub">Le Conseil Mondial vient chercher son tribut.</div>
+    <div class="row"><span>Tribut</span><b>${money(dem)}</b></div><div class="row"><span>Dans</span><b>${tl} trimestre(s)</b></div><div class="row"><span>Suivante</span><b>${money(echDemand(G.ech + 2))}</b></div>
+    <div class="small">Le tribut est prélevé sur votre trésor, puis sur vos actions, puis sur votre découvert autorisé. Impossible à payer = fin du règne.</div></div>
    <div class="card"><h3>⚖ Cabinet Talleyrand &amp; Associés</h3><div class="sub">« Nous avons trahi tous les régimes. Pourquoi pas le vôtre ? »</div>
-    <div class="small">Radar : <b>${Math.round(G.heat)}/100</b>. À 100, procès (amende ≈ 30 % de vos liquidités et titres). Deuxième procès : exil, fin de partie.</div>
-    <div class="seg"><button class="btn" onclick="lawyer()" ${G.cash < 800 ? 'disabled' : ''}>« Clarifier le dossier » · −800 ⚜ · Radar −20</button></div>
-    <div class="small">Autres moyens de baisser le Radar : Ministère de la Légitimité, politique « Bien-être », décret Code Civil 2.0, patience (−2/trim.).</div></div>
+    <div class="small">Radar : <b>${Math.round(G.heat)}/100</b>. À 100, procès (amende ≈ 30 % de vos liquidités et titres). Deuxième procès : exil, fin du règne.</div>
+    <div class="seg"><button class="btn" onclick="lawyer()" ${G.cash < lawyerCost() ? 'disabled' : ''}>« Clarifier le dossier » · −${num(lawyerCost())} ⚜ · Radar −20</button></div>
+    <div class="small">Autres moyens : Ministère de la Légitimité, politique « Bien-être », décret Code Civil 2.0, patience (−2/trim.).</div></div>
   </div>`;
 }
 function pJournal() {
@@ -811,10 +1094,12 @@ function pJournal() {
 /* ---------- Raccourcis & démarrage ---------- */
 document.addEventListener('keydown', e => {
   if (!G || $('#modal').innerHTML) return;
-  if (e.code === 'Space' && document.activeElement === document.body) { e.preventDefault(); if (!$('#endbtn').disabled) endTurn(); }
+  if (e.code === 'Space' && document.activeElement === document.body) { e.preventDefault(); advance(1); }
+  if (e.key === 'a' || e.key === 'A') toggleAuto();
   const k = parseInt(e.key); if (k >= 1 && k <= 6) setTab(['empire', 'conq', 'bourse', 'decrets', 'banque', 'journal'][k - 1]);
 });
-newGame('normal');
+loadMeta();
+newGame();
 startScreen();
 </script>
 </body>
