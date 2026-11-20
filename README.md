@@ -6,7 +6,9 @@ Roguelite économique **infini**, cynique et décalé, qui se joue dans le navig
 
 ## Jouer
 
-Aucune installation : ouvrez `index.html` dans un navigateur.
+**▶ [Jouer en ligne](https://doktom.github.io/empire-2736/)** (directement dans le navigateur, sur ordinateur ou téléphone).
+
+Ou en local, sans installation : ouvrez `index.html` dans un navigateur.
 
 ```bash
 # ou, avec un petit serveur local
